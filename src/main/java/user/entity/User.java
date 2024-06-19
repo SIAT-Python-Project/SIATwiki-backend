@@ -1,17 +1,20 @@
 package user.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import person.entity.Person;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +42,9 @@ public class User {
 
     @Column(name = "create_date")
     private LocalDateTime  createDate;	// user 생성일
+    
+    @OneToMany(mappedBy = "user")
+    private List<Person> persons;
 
     @Builder
 	public User(String name, String email, String password, String role, LocalDateTime createDate) {

@@ -7,14 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import person.entity.Person;
-import user.entity.User;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,8 +40,8 @@ public class Info {
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;	// info 수정일
 
-	@Column(name = "person")
-    @OneToMany(mappedBy = "info")
+	@JoinColumn(name="user_id")
+	@ManyToOne
     private Person person;				// person
 
 	@Builder
