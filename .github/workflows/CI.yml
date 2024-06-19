@@ -3,7 +3,11 @@ name:
 on: 
   pull_request:
     branches: [main]
-
+    
+permissions:
+  contents: read
+  checks: write
+  
 jobs:
   build:
     runs-on: ubuntu-latest
