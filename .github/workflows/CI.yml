@@ -33,7 +33,7 @@ jobs:
           ${{ runner.os }}-m2
           
     - name: 프로젝트 build
-      run : .mvn -B package -DskipTests=true --file back/pom.xml
+      run : mvn -B package -DskipTests=true --file back/pom.xml
       
     - name: build 실패 PR 닫기
       if: ${{ failure() }}
