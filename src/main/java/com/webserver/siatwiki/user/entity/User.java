@@ -3,6 +3,8 @@ package com.webserver.siatwiki.user.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.webserver.siatwiki.person.entity.Person;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +16,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.webserver.siatwiki.person.entity.Person;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class User {
     private String password;		// user password
 	
 	@Column(name = "role")
-    private String role;			// user 역활?
+    private Role role;			// user 역활?
 
     @Column(name = "create_date")
     private LocalDateTime  createDate;	// user 생성일
@@ -47,7 +48,7 @@ public class User {
     private List<Person> persons;
 
     @Builder
-	public User(String name, String email, String password, String role, LocalDateTime createDate) {
+	public User(String name, String email, String password, Role role, LocalDateTime createDate) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
