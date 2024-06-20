@@ -43,7 +43,6 @@ public class User {
     private Role role;			// user 역활?
 
     @Column(name = "create_date")
-    @CreatedDate
     private LocalDateTime  createDate;	// user 생성일
     
     @OneToMany(mappedBy = "user")
