@@ -11,9 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
 import java.util.NoSuchElementException;
@@ -50,5 +48,24 @@ public class PersonController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+
+
+        @PostMapping("/api/person")
+        public ResponseEntity insertPerson(@RequestBody PersonDTO.PersonRequestDTO requestDTO)  {
+
+            Person person = null;
+            try {
+                 person = personService.DtoToEntity(requestDTO);
+                 personService.save(person);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(person,HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<>(person,HttpStatus.OK);
+
     }
 }

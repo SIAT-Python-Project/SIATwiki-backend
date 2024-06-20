@@ -13,6 +13,8 @@ public class PersonDTO {
     @AllArgsConstructor
     @Builder
     public static class PersonResponseDTO {
+
+        //백엔드가 전해줄 때 만드는 DTO
         private int id;
         private String name;
         private String mbti;
@@ -20,8 +22,9 @@ public class PersonDTO {
         private String github;
         private String createDate;
         private String updateDate;
-        private String userName;
+        private String userName; //작성자명
 
+        //Entity to DTO
         public PersonResponseDTO(Person person) {
             this.id = person.getId();
             this.name = person.getName();
@@ -32,6 +35,9 @@ public class PersonDTO {
             this.updateDate = person.getUpdateDate().toString();
             this.userName = person.getUser().getName();
         }
+
+
+
     }
 
     @Data
@@ -39,10 +45,12 @@ public class PersonDTO {
     @AllArgsConstructor
     @Builder
     public static class PersonRequestDTO {
+        //프론트로부터 요청된 필드로 생성
         private String name;
         private String mbti;
         private String email;
         private String github;
         private int userId;
+
     }
 }

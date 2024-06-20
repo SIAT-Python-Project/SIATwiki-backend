@@ -3,6 +3,7 @@ package com.webserver.siatwiki.person.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.webserver.siatwiki.info.entity.Info;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import com.webserver.siatwiki.user.entity.User;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +31,10 @@ public class Person {
 	private String name;		// person 이름
 
 	@Column(name = "create_date")
+	@CreatedDate
 	private LocalDateTime createDate;	// person 생성일
 
+	@LastModifiedDate
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;	// person 수정일
 	
@@ -44,6 +49,7 @@ public class Person {
 	
 	@JoinColumn(name="user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonManagedReference
 	private User user;			// User
 	
 	@OneToMany(mappedBy = "person")
