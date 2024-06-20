@@ -46,8 +46,8 @@ public class User {
     private LocalDateTime  createDate;   // user 생성일
     
     @OneToMany(mappedBy = "user")
-   @JsonBackReference
-   private List<Person> persons;
+	@JsonBackReference
+	private List<Person> persons;
 
     @Builder
    public User(String name, String email, String password, Role role, LocalDateTime createDate) {
