@@ -3,6 +3,9 @@ package com.webserver.siatwiki.user.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.webserver.siatwiki.person.entity.Person;
 
 import jakarta.persistence.Column;
@@ -42,9 +45,11 @@ public class User {
     private Role role;			// user 역활?
 
     @Column(name = "create_date")
+    @CreatedDate
     private LocalDateTime  createDate;	// user 생성일
     
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Person> persons;
 
     @Builder
