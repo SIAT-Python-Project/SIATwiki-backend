@@ -5,10 +5,9 @@ import com.webserver.siatwiki.info.service.InfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -31,5 +30,20 @@ public class InfoController {
         }
 
         return new ResponseEntity<>(responseDto, status);
+    }
+
+
+    @GetMapping("/api/info/person/{personId}")
+    public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final int personId) {
+        List<InfoDto.InfoResponseDto> responseDtos = null;
+        HttpStatus status = HttpStatus.OK;
+
+        try {
+            responseDtos = infoService.findAllByPersonId(personId);
+        } catch (NoSuchElementException e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+
+        return new ResponseEntity<>(responseDtos, status);
     }
 }
