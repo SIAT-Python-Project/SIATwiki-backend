@@ -53,7 +53,10 @@ public class PersonService {
         }
     }
 
-
+    @Transactional
+    public void deletePerson(int id) {
+        personRepository.deleteById(id);
+    }
 
     //DTO 변환 메서드
 
