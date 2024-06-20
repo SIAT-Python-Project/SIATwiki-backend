@@ -32,6 +32,19 @@ public class InfoController {
         return new ResponseEntity<>(responseDto, status);
     }
 
+    @GetMapping("/api/info/{infoId}")
+    public ResponseEntity<InfoDto.InfoResponseDto> getInfoById(@PathVariable final Integer infoId) {
+        InfoDto.InfoResponseDto responseDto = null;
+        HttpStatus status = HttpStatus.OK;
+
+        try {
+            responseDto = infoService.getInfoById(infoId);
+        } catch (NoSuchElementException e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+
+        return new ResponseEntity<>(responseDto, status);
+    }
 
     @GetMapping("/api/info/person/{personId}")
     public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final int personId) {
@@ -45,5 +58,20 @@ public class InfoController {
         }
 
         return new ResponseEntity<>(responseDtos, status);
+    }
+
+    @PutMapping("/api/info/{infoId}")
+    public ResponseEntity<String> updateInfo(@PathVariable final Integer infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
+        String result = "성공!";
+        HttpStatus status = HttpStatus.OK;
+
+        try {
+            infoService.updateInfo(infoId, requestDto);
+        } catch (NoSuchElementException e) {
+            status = HttpStatus.NOT_FOUND;
+            result = "실패!";
+        }
+
+        return new ResponseEntity<>(result, status);
     }
 }

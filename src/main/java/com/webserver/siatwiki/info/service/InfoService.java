@@ -51,9 +51,25 @@ public class InfoService {
     private InfoDto.InfoResponseDto entityToDto(Info info) {
         return InfoDto.InfoResponseDto.builder()
                 .id(info.getId())
-                .category(info.getType())
+                .category(info.getType().getKr())
                 .content(info.getContent())
                 .updateDate(info.getUpdateDate())
                 .build();
+    }
+
+    public InfoDto.InfoResponseDto getInfoById(Integer infoId) throws NoSuchElementException {
+        Info info = infoRepository.findById(infoId)
+                .orElseThrow();
+
+        return entityToDto(info);
+    }
+
+    public void updateInfo(Integer infoId, InfoDto.InfoRequestDto dto) throws NoSuchElementException {
+        Info target = infoRepository.findById(infoId)
+                .orElseThrow();
+
+        target.fetch(dto);
+
+        infoRepository.save(target);
     }
 }

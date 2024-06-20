@@ -21,7 +21,7 @@ public class InfoDto {
     @Builder
     public static class InfoResponseDto {
         private int id;
-        private Category category;
+        private String category;
         private String content;
         private LocalDateTime updateDate;
     }
