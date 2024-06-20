@@ -3,8 +3,6 @@ package com.webserver.siatwiki.user.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.webserver.siatwiki.person.entity.Person;
 
@@ -27,39 +25,38 @@ import lombok.ToString;
 @Entity
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id; 				// user 번호
-	
-	@Column(name = "name")
-	private String name;			// user 이름
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "id")
+   private int id;             // user 번호
+   
+   @Column(name = "name")
+   private String name;         // user 이름
 
-	@Column(name = "email")
-    private String email;			// user email
+   @Column(name = "email")
+    private String email;         // user email
 
-	@Column(name = "password")
-    private String password;		// user password
-	
-	@Column(name = "role")
-    private Role role;			// user 역활?
+   @Column(name = "password")
+    private String password;      // user password
+   
+   @Column(name = "role")
+    private Role role;         // user 역활?
 
     @Column(name = "create_date")
-    @CreatedDate
-    private LocalDateTime  createDate;	// user 생성일
+    private LocalDateTime  createDate;   // user 생성일
     
     @OneToMany(mappedBy = "user")
-    @JsonBackReference
-    private List<Person> persons;
+   @JsonBackReference
+   private List<Person> persons;
 
     @Builder
-	public User(String name, String email, String password, Role role, LocalDateTime createDate) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.role = role;
-		this.createDate = createDate;
-	}
+   public User(String name, String email, String password, Role role, LocalDateTime createDate) {
+      this.name = name;
+      this.email = email;
+      this.password = password;
+      this.role = role;
+      this.createDate = createDate;
+   }
     
     
     
