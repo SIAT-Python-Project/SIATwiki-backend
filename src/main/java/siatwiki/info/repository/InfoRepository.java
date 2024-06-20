@@ -1,9 +1,9 @@
-package info.repository;
+package siatwiki.info.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import info.entity.Info;
+import siatwiki.info.entity.Info;
 
 
 @Repository

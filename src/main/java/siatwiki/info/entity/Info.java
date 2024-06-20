@@ -1,4 +1,4 @@
-package info.entity;
+package siatwiki.info.entity;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import person.entity.Person;
+import siatwiki.person.entity.Person;
 
 @NoArgsConstructor
 @AllArgsConstructor
