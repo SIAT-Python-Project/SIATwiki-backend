@@ -63,4 +63,13 @@ public class InfoService {
 
         return entityToDto(info);
     }
+
+    public void updateInfo(Integer infoId, InfoDto.InfoRequestDto dto) throws NoSuchElementException {
+        Info target = infoRepository.findById(infoId)
+                .orElseThrow();
+
+        target.fetch(dto);
+
+        infoRepository.save(target);
+    }
 }

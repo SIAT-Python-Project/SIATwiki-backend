@@ -2,6 +2,7 @@ package com.webserver.siatwiki.info.entity;
 
 import java.time.LocalDateTime;
 
+import com.webserver.siatwiki.info.dto.InfoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,5 +56,7 @@ public class Info {
 	}
 
 
-
+	public void fetch(InfoDto.InfoRequestDto dto) {
+		this.content = dto.getContent();
+	}
 }

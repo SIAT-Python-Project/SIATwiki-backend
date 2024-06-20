@@ -59,4 +59,19 @@ public class InfoController {
 
         return new ResponseEntity<>(responseDtos, status);
     }
+
+    @PutMapping("/api/info/{infoId}")
+    public ResponseEntity<String> updateInfo(@PathVariable final Integer infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
+        String result = "성공!";
+        HttpStatus status = HttpStatus.OK;
+
+        try {
+            infoService.updateInfo(infoId, requestDto);
+        } catch (NoSuchElementException e) {
+            status = HttpStatus.NOT_FOUND;
+            result = "실패!";
+        }
+
+        return new ResponseEntity<>(result, status);
+    }
 }
