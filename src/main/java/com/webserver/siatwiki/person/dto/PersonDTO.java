@@ -30,7 +30,7 @@ public class PersonDTO {
             this.github = person.getGithub();
             this.createDate = person.getCreateDate().toString();
             this.updateDate = person.getUpdateDate().toString();
-            this.userName = person.getUser().getName(); // Assuming User entity has a getName() method
+            this.userName = person.getUser().getName();
         }
     }
 

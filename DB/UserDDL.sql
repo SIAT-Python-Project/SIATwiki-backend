@@ -1,0 +1,1 @@
+INSERT INTO user (id,name,email,password,role,create_date) VALUES(1,"김지혜","cocoa389@naver.com","1234","admin",CURRENT_TIMESTAMP);
