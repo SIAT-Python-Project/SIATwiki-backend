@@ -39,24 +39,24 @@ public class Person {
 	@UpdateTimestamp
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;	// person 수정일
-	
+
 	@Column(name = "mbti")
 	private String mbti;			// person mbti
-	
+
 	@Column(name = "email")
 	private String email;			// person email
-	
+
 	@Column(name = "github")
-	private String github;			// person github 메일			
-	
+	private String github;			// person github 메일
+
 	@JoinColumn(name="user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private User user;			// User
-	
+
 	@OneToMany(mappedBy = "person")
 	private List<Info> infos;
-	
+
 	@Builder
 	public Person(String name, LocalDateTime createDate, LocalDateTime updateDate, String mbti, String email,
 			String github, User user) {
@@ -67,6 +67,16 @@ public class Person {
 		this.email = email;
 		this.github = github;
 		this.user = user;
+	}
+
+
+	public void update(String name, String mbti, String email, String github, User user){
+		this.name = name;
+		this.mbti = mbti;
+		this.email = email;
+		this.github = github;
+		this.user = user; //마지막 수정자
+		this.updateDate = LocalDateTime.now(); // 업데이트 시점 갱신
 	}
 
 

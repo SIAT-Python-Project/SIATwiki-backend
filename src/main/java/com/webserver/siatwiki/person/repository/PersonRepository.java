@@ -12,6 +12,4 @@ import java.util.Optional;
 @Repository
 public interface PersonRepository extends JpaRepository< Person, Integer> {
 
-//    @Query("select p from Person p where p.id=:id")
-    public Optional<Person> findById(@Param("id") Integer id);
 }
