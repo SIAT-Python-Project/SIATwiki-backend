@@ -65,7 +65,7 @@ public class PersonController {
     public ResponseEntity<Void> deletePerson(@PathVariable("personId") int id) {
         try {
             personService.deletePerson(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
