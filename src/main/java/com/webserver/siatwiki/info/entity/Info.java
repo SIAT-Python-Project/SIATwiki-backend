@@ -30,7 +30,7 @@ public class Info {
 	private int id; 				// info 번호
 
 	@Column(name = "type")
-	private String type;			// 카테고리
+	private Category type;			// 카테고리
 	
 	@Column(name = "content")
 	private String content;			// 카테고리 작성
@@ -46,7 +46,7 @@ public class Info {
     private Person person;				// person
 
 	@Builder
-	public Info(String type, String content, LocalDateTime createDate, LocalDateTime updateDate, Person person) {
+	public Info(Category type, String content, LocalDateTime createDate, LocalDateTime updateDate, Person person) {
 		this.type = type;
 		this.content = content;
 		this.createDate = createDate;
