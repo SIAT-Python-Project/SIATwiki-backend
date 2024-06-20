@@ -32,6 +32,19 @@ public class InfoController {
         return new ResponseEntity<>(responseDto, status);
     }
 
+    @GetMapping("/api/info/{infoId}")
+    public ResponseEntity<InfoDto.InfoResponseDto> getInfoById(@PathVariable final Integer infoId) {
+        InfoDto.InfoResponseDto responseDto = null;
+        HttpStatus status = HttpStatus.OK;
+
+        try {
+            responseDto = infoService.getInfoById(infoId);
+        } catch (NoSuchElementException e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+
+        return new ResponseEntity<>(responseDto, status);
+    }
 
     @GetMapping("/api/info/person/{personId}")
     public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final int personId) {
