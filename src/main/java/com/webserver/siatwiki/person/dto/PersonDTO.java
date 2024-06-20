@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class PersonDTO {
 
     @Data
@@ -20,9 +22,10 @@ public class PersonDTO {
         private String mbti;
         private String email;
         private String github;
-        private String createDate;
-        private String updateDate;
+        private LocalDateTime createDate;
+        private LocalDateTime updateDate;
         private String userName; //작성자명
+
 
         //Entity to DTO
         public PersonResponseDTO(Person person) {
@@ -31,8 +34,8 @@ public class PersonDTO {
             this.mbti = person.getMbti();
             this.email = person.getEmail();
             this.github = person.getGithub();
-            this.createDate = person.getCreateDate().toString();
-            this.updateDate = person.getUpdateDate().toString();
+            this.createDate = person.getCreateDate();
+            this.updateDate = person.getUpdateDate();
             this.userName = person.getUser().getName();
         }
 
@@ -50,6 +53,8 @@ public class PersonDTO {
         private String mbti;
         private String email;
         private String github;
+        private LocalDateTime createDate;
+        private LocalDateTime updateDate;
         private int userId;
 
     }

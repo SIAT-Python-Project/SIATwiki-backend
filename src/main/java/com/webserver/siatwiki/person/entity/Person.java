@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import com.webserver.siatwiki.user.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -31,10 +33,10 @@ public class Person {
 	private String name;		// person 이름
 
 	@Column(name = "create_date")
-	@CreatedDate
+	@CreationTimestamp
 	private LocalDateTime createDate;	// person 생성일
 
-	@LastModifiedDate
+	@UpdateTimestamp
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;	// person 수정일
 	
