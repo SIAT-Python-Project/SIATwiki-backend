@@ -1,9 +1,9 @@
-package siatwiki.person.entity;
+package com.webserver.siatwiki.person.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import siatwiki.info.entity.Info;
+import com.webserver.siatwiki.info.entity.Info;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import siatwiki.user.entity.User;
+import com.webserver.siatwiki.user.entity.User;
 
 @NoArgsConstructor
 @AllArgsConstructor
