@@ -1,12 +1,9 @@
 package com.webserver.siatwiki.person.dto;
 
-import com.webserver.siatwiki.person.entity.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 public class PersonDTO {
 
@@ -14,48 +11,24 @@ public class PersonDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class PersonResponseDTO {
-
-        //백엔드가 전해줄 때 만드는 DTO
-        private int id;
+    public static class PersonRequestDTO {
         private String name;
         private String mbti;
         private String email;
         private String github;
-        private LocalDateTime createDate;
-        private LocalDateTime updateDate;
-        private String userName; //작성자명
-
-
-        //Entity to DTO
-        public PersonResponseDTO(Person person) {
-            this.id = person.getId();
-            this.name = person.getName();
-            this.mbti = person.getMbti();
-            this.email = person.getEmail();
-            this.github = person.getGithub();
-            this.createDate = person.getCreateDate();
-            this.updateDate = person.getUpdateDate();
-            this.userName = person.getUser().getName();
-        }
-
-
-
+        private int userId;
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class PersonRequestDTO {
-        //프론트로부터 요청된 필드로 생성
+    public static class PersonResponseDTO {
+        private int id;
         private String name;
         private String mbti;
         private String email;
         private String github;
-        private LocalDateTime createDate;
-        private LocalDateTime updateDate;
-        private int userId;
-
+        private String userName;  // Assuming User entity has a name field
     }
 }
