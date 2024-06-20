@@ -2,21 +2,19 @@ package com.webserver.siatwiki.info.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import com.webserver.siatwiki.person.entity.Person;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -36,9 +34,11 @@ public class Info {
 	private String content;			// 카테고리 작성
 
 	@Column(name = "create_date")
+	@CreatedDate
 	private LocalDateTime createDate;	// info 생성일
 
 	@Column(name = "update_date")
+	@LastModifiedDate
 	private LocalDateTime updateDate;	// info 수정일
 
 	@JoinColumn(name="user_id")
