@@ -63,19 +63,24 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
-	
+
 	@PostMapping("/api/userFind")
 	public ResponseEntity<List<UserResponseDTO>> findUser(UserRequestDTO userRequsetDTO) {
 		List<User> result = userService.findUser();
 		if (result != null) {
-			List<UserResponseDTO> responseDTO = result.stream().map(user -> new UserResponseDTO(user.getId(),
-					user.getName(), user.getEmail(), user.getPassword(), user.getRole(), user.getCreateDate()))
+			List<UserResponseDTO> responseDTO = result.stream()
+					.map(user -> new UserResponseDTO(user.getId(),
+					user.getName(), 
+					user.getEmail(), 
+					user.getPassword(), 
+					user.getRole(),
+					user.getCreateDate()))
 					.collect(Collectors.toList());
 			return ResponseEntity.ok(responseDTO);
 		} else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
-		
+
 	}
 
 //	@PostMapping("/api/test")
@@ -90,6 +95,5 @@ public class UserController {
 //		
 //		userService.userTest(user);	
 //	}
-
 
 }
