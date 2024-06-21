@@ -31,4 +31,13 @@ public class PersonDTO {
         private String github;
         private String userName;  // Assuming User entity has a name field
     }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class PersonIdNameDTO{
+        private int id;
+        private String name;
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -73,9 +74,13 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
+    //[{id:이름},{id:이름2},...]
     @Transactional
-    public List<String> findAllPersonNames() {
-        return personRepository.findAllPersonNames();
+    public List<PersonDTO.PersonIdNameDTO> getAllPersonIdAndName() {
+        List<Person> people = personRepository.findAll();
+        return people.stream()
+                .map(person -> new PersonDTO.PersonIdNameDTO(person.getId(), person.getName()))
+                .collect(Collectors.toList());
     }
     //DTO 변환 메서드
 
