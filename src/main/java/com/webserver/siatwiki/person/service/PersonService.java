@@ -1,5 +1,8 @@
 package com.webserver.siatwiki.person.service;
 
+import com.webserver.siatwiki.info.entity.Category;
+import com.webserver.siatwiki.info.entity.Info;
+import com.webserver.siatwiki.info.repository.InfoRepository;
 import com.webserver.siatwiki.person.dto.PersonDTO;
 import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.repository.PersonRepository;
@@ -18,6 +21,7 @@ public class PersonService {
 
     private final PersonRepository personRepository;
     private final UserRepository userRepository;
+    private final InfoRepository infoRepository;
 
     @Transactional
     public void savePerson(PersonDTO.PersonRequestDTO personRequestDTO) {
@@ -26,6 +30,16 @@ public class PersonService {
                 .orElseThrow(() -> new NoSuchElementException("User가 존재하지 않습니다."));
         Person person = toEntity(personRequestDTO, user);
         personRepository.save(person);
+
+        for (Category category: Category.values()) {
+            Info info = Info.builder()
+                    .type(category)
+                    .content("")
+                    .person(person)
+                    .build();
+
+            infoRepository.save(info);
+        }
     }
 
     @Transactional
