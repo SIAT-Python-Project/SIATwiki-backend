@@ -7,13 +7,16 @@ import com.webserver.siatwiki.person.dto.PersonDTO;
 import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.repository.PersonRepository;
 import com.webserver.siatwiki.profile.entity.Profile;
+import com.webserver.siatwiki.profile.repository.ProfileQueryDslRepository;
 import com.webserver.siatwiki.profile.repository.ProfileRepository;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,11 +30,15 @@ public class PersonService {
     private final UserRepository userRepository;
     private final InfoRepository infoRepository;
     private final ProfileRepository profileRepository;
+    private final ProfileQueryDslRepository profileQueryDslRepository;
 
     @Transactional
     public void savePerson(PersonDTO.PersonRequestDTO personRequestDTO, Long profileId) {
-        Profile profile = profileRepository.findById(profileId)
-                .orElseThrow(() -> new NoSuchElementException("해당 이미지가 존재하지 않습니다."));
+        Profile profile = null;
+        if (profileId != null) {
+            profile = profileRepository.findById(profileId)
+                    .orElseThrow(() -> new NoSuchElementException("해당 이미지가 존재하지 않습니다."));
+        }
 
         //user먼저 찾아주고 넣어줌
         User user = userRepository.findById(personRequestDTO.getUserId())
@@ -49,8 +56,6 @@ public class PersonService {
 
             infoRepository.save(info);
         }
-
-
     }
 
     @Transactional
@@ -80,9 +85,11 @@ public class PersonService {
 
     @Transactional
     public void deletePerson(int id) {
-
-
+        Profile profile = profileQueryDslRepository.findByPersonId(id);
         personRepository.deleteById(id);
+
+        deleteLocalFile(profile.getFilePath());
+        profileRepository.delete(profile);
     }
 
     //[{id:이름},{id:이름2},...]
@@ -115,5 +122,13 @@ public class PersonService {
                 .github(person.getGithub())
                 .userName(person.getUser().getName())  // Assuming User entity has a name field
                 .build();
+    }
+
+    private void deleteLocalFile(String filePath) {
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            file.delete();
+        }
     }
 }

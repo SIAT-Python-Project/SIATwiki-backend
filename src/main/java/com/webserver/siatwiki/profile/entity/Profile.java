@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @Getter
@@ -15,7 +16,7 @@ import lombok.ToString;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "attachment_file_no")
+    @Column(name = "profile_id")
     private Long attachmentFileNo;
 
     @Column(name = "file_path", length = 2000)
@@ -30,7 +31,7 @@ public class Profile {
     @Column(name = "attachment_file_size")
     private Long attachmentFileSize;
 
-    @OneToOne
+    @OneToOne(mappedBy = "profile")
     private Person person;
 
     @Builder
@@ -41,5 +42,12 @@ public class Profile {
         this.attachmentFileName = attachmentFileName;
         this.attachmentOriginalFileName = attachmentOriginalFileName;
         this.attachmentFileSize = attachmentFileSize;
+    }
+
+    public void fetch(MultipartFile file, String filePath, String fileName) {
+        this.attachmentFileSize = file.getSize();
+        this.attachmentOriginalFileName = file.getOriginalFilename();
+        this.filePath = filePath;
+        this.attachmentFileName = fileName;
     }
 }
