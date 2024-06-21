@@ -1,10 +1,12 @@
 package com.webserver.siatwiki.person.entity;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.webserver.siatwiki.info.entity.Info;
+import com.webserver.siatwiki.profile.entity.Profile;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,9 +59,13 @@ public class Person {
 	@OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	private List<Info> infos;
 
+	@OneToOne
+	@JoinColumn(name = "profile_id")
+	private Profile profile;
+
 	@Builder
 	public Person(String name, LocalDateTime createDate, LocalDateTime updateDate, String mbti, String email,
-			String github, User user) {
+			String github, User user, Profile profile) {
 		this.name = name;
 		this.createDate = createDate;
 		this.updateDate = updateDate;
@@ -67,6 +73,7 @@ public class Person {
 		this.email = email;
 		this.github = github;
 		this.user = user;
+		this.profile = profile;
 	}
 
 
