@@ -2,41 +2,36 @@ package com.webserver.siatwiki.user.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
-
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
-
+	@Autowired
 	private final UserRepository userRepository;
-	@Transactional
-	public void userTest(User user) {
-		userRepository.save(user);
-	}
-	
 //	@Transactional
-//	public void createUser(User user) {
-//		userRepository.insert(user);
+//	public void userTest(User user) {
+//		userRepository.save(user);
 //	}
 
 	@Transactional
-	public boolean findUserLogin(String email, String password, UserRequestDTO loginUserRequestDTO) {
+	public void createUser(User user) {
+		userRepository.save(user);
+	}
 
-		
-		if (email.equals(loginUserRequestDTO.getEmail()) && password.equals(loginUserRequestDTO.getPassword())) {
-			userRepository.findByEmailAndPassword(email, password);
-			
-			return true;
-		}
-		return false;
+	@Transactional
+	public boolean findUserLogin(String email, String password) {
+		User user = userRepository.findByEmail(email);
+		return user != null && user.getPassword().equals(password);
 	}
 
 	@Transactional
@@ -45,8 +40,27 @@ public class UserService {
 	}
 
 	@Transactional
-	public User findUserLogout(String email) {
+	public boolean findUserLogout(String email) {
+		User user = userRepository.findByEmail(email);
+		return user != null;
+	}
+
+	@Transactional
+	public User getByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public User DtoToEntity(UserRequestDTO requestDTO) {
+		User user = User.builder()
+				.name(requestDTO.getName())
+				.email(requestDTO.getEmail())
+				.password(requestDTO.getPassword())
+				.role(requestDTO.getRole())
+				.createDate(requestDTO.getCreateDate())
+				.build();
+
+		return user;
+
 	}
 
 }
