@@ -6,6 +6,8 @@ import com.webserver.siatwiki.info.repository.InfoRepository;
 import com.webserver.siatwiki.person.dto.PersonDTO;
 import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.repository.PersonRepository;
+import com.webserver.siatwiki.profile.entity.Profile;
+import com.webserver.siatwiki.profile.repository.ProfileRepository;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -23,13 +25,18 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final UserRepository userRepository;
     private final InfoRepository infoRepository;
+    private final ProfileRepository profileRepository;
 
     @Transactional
-    public void savePerson(PersonDTO.PersonRequestDTO personRequestDTO) {
+    public void savePerson(PersonDTO.PersonRequestDTO personRequestDTO, Long profileId) {
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new NoSuchElementException("해당 이미지가 존재하지 않습니다."));
+
         //user먼저 찾아주고 넣어줌
         User user = userRepository.findById(personRequestDTO.getUserId())
                 .orElseThrow(() -> new NoSuchElementException("User가 존재하지 않습니다."));
-        Person person = toEntity(personRequestDTO, user);
+        Person person = toEntity(personRequestDTO, user, profile);
+
         personRepository.save(person);
 
         for (Category category: Category.values()) {
@@ -41,6 +48,8 @@ public class PersonService {
 
             infoRepository.save(info);
         }
+
+
     }
 
     @Transactional
@@ -70,6 +79,8 @@ public class PersonService {
 
     @Transactional
     public void deletePerson(int id) {
+
+
         personRepository.deleteById(id);
     }
 
@@ -79,9 +90,10 @@ public class PersonService {
     }
     //DTO 변환 메서드
 
-    public Person toEntity(PersonDTO.PersonRequestDTO personRequestDTO, User user) {
+    public Person toEntity(PersonDTO.PersonRequestDTO personRequestDTO, User user, Profile profile) {
         return Person.builder()
                 .user(user)
+                .profile(profile)
                 .name(personRequestDTO.getName())
                 .mbti(personRequestDTO.getMbti())
                 .email(personRequestDTO.getEmail())

@@ -29,6 +29,7 @@ public class PersonDTO {
         private String mbti;
         private String email;
         private String github;
-        private String userName;  // Assuming User entity has a name field
+        private String userName;
+        private String filePath;
     }
 }
