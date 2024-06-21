@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.webserver.siatwiki.person.dto.PersonDTO;
-import com.webserver.siatwiki.person.entity.Person;
+
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
