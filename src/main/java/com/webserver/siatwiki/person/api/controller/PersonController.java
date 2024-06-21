@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -69,5 +70,11 @@ public class PersonController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/api/person")
+    public ResponseEntity<List<String>> getPersonNames() {
+        List<String> people = personService.findAllPersonNames();
+        return ResponseEntity.ok(people);
     }
 }
