@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -72,6 +73,10 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
+    @Transactional
+    public List<String> findAllPersonNames() {
+        return personRepository.findAllPersonNames();
+    }
     //DTO 변환 메서드
 
     public Person toEntity(PersonDTO.PersonRequestDTO personRequestDTO, User user) {
