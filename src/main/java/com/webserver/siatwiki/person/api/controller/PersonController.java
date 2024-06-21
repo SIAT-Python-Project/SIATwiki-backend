@@ -73,8 +73,8 @@ public class PersonController {
     }
 
     @GetMapping("/api/person")
-    public ResponseEntity<List<String>> getPersonNames() {
-        List<String> people = personService.findAllPersonNames();
-        return ResponseEntity.ok(people);
+    public ResponseEntity<List<PersonDTO.PersonIdNameDTO>> getAllPersonIdAndNames() {
+        List<PersonDTO.PersonIdNameDTO> response = personService.getAllPersonIdAndName();
+        return ResponseEntity.ok(response);
     }
 }
