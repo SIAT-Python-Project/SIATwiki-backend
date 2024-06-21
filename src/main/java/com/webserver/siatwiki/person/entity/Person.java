@@ -54,7 +54,7 @@ public class Person {
 	@JsonManagedReference
 	private User user;			// User
 
-	@OneToMany(mappedBy = "person")
+	@OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	private List<Info> infos;
 
 	@Builder
