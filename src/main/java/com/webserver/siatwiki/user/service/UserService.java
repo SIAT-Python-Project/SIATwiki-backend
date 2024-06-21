@@ -1,5 +1,6 @@
 package com.webserver.siatwiki.user.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
+import com.webserver.siatwiki.user.entity.Role;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
 
@@ -55,8 +57,8 @@ public class UserService {
 				.name(requestDTO.getName())
 				.email(requestDTO.getEmail())
 				.password(requestDTO.getPassword())
-				.role(requestDTO.getRole())
-				.createDate(requestDTO.getCreateDate())
+				.role(Role.USER)
+				.createDate(LocalDateTime.now())
 				.build();
 
 		return user;
