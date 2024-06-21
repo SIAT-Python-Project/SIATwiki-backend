@@ -33,7 +33,7 @@ public class PersonController {
             Person person = personOptional.get();
             String filePath = null;
             if (person.getProfile() != null) {
-                filePath = profileService.getProfileById(person.getProfile().getAttachmentFileNo());
+                filePath = profileService.getProfileUrlByPersonId(id);
             }
 
             PersonDTO.PersonResponseDTO responseDTO = personService.toDto(person);
@@ -50,9 +50,13 @@ public class PersonController {
 
     @PostMapping("/api/person")
     public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person,
-                                                                  @RequestPart MultipartFile file) {
+                                                                  @RequestPart(required = false) MultipartFile file) {
         try {
-            Long profileId = profileService.saveProfile(file);
+            Long profileId = null;
+            if (file != null){
+                profileId = profileService.saveProfile(file);
+            }
+
             personService.savePerson(person, profileId);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (NoSuchElementException e) {
@@ -64,10 +68,13 @@ public class PersonController {
 
     @PutMapping("/api/person/{personId}")
     public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") int id,
-                                                                    @RequestBody PersonDTO.PersonRequestDTO personRequestDTO) {
+                                                                    @RequestPart PersonDTO.PersonRequestDTO person,
+                                                                    @RequestPart(required = false) MultipartFile file) {
         try {
-            Person updatedPerson = personService.updatePerson(id, personRequestDTO);
+            String filePath = profileService.updateProfile(id, file);
+            Person updatedPerson = personService.updatePerson(id, person);
             PersonDTO.PersonResponseDTO responseDTO = personService.toDto(updatedPerson);
+            responseDTO.setFilePath(filePath);
 
             HttpHeaders header = new HttpHeaders();
             header.set(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -75,6 +82,8 @@ public class PersonController {
             return new ResponseEntity<>(responseDTO, header, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
