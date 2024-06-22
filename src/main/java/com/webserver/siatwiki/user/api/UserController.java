@@ -53,14 +53,26 @@ public class UserController {
 	}
 
 	@PostMapping("/api/login")
-	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response) throws UnsupportedEncodingException {
+	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws UnsupportedEncodingException {
 		boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
 		if (loginSuccess) {
 			User cookieUser = userService.getByEmail(requestDTO.getEmail());
 			UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
-			Cookie cookie = new Cookie("name", URLEncoder.encode(userLoginDTO.getName(), "UTF-8"));
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            
+//			Cookie emailCookie = new Cookie("email", URLEncoder.encode(userLoginDTO.getEmail(), "UTF-8"));
+//			emailCookie.setPath("/*");
+//			response.addCookie(emailCookie);
+//
+//			// name 쿠키 추가
+//			Cookie nameCookie = new Cookie("name", URLEncoder.encode(userLoginDTO.getName(), "UTF-8"));
+//			nameCookie.setPath("/*");
+//			response.addCookie(nameCookie);
+//
+//			// id 쿠키 추가
+//			Cookie idCookie = new Cookie("id", String.valueOf(userLoginDTO.getId()));
+//			idCookie.setPath("/*");
+//			response.addCookie(idCookie);
+            
 			return ResponseEntity.ok(userLoginDTO);
 		} else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("email 또는 password가 다름니다");

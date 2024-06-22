@@ -31,9 +31,10 @@ public class UserLoginDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class UserLoginRequestDTO {
-		private Long id;
+		private int id;
 		private String name;
 		private String email;
+	    private String password;
 
 	}
 }

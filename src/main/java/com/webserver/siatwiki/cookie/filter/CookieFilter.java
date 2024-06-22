@@ -1,5 +1,4 @@
 package com.webserver.siatwiki.cookie.filter;
-
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -11,18 +10,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 
-import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
-import com.webserver.siatwiki.user.entity.User;
-import com.webserver.siatwiki.user.service.UserService;
 
-@WebFilter("/api/*")
+@WebFilter("/*")
 //@WebFilter(urlPatterns = "/api/*", initParams = {
 //        @WebInitParam(name = "charset", value = "UTF-8")
 //})
 public class CookieFilter implements Filter {
-
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
@@ -33,6 +27,7 @@ public class CookieFilter implements Filter {
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		
 		// 로그인 시 쿠키 설정
 		if (request.getRequestURI().endsWith("/api/login")) {
 		}
@@ -43,7 +38,7 @@ public class CookieFilter implements Filter {
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
 					cookie.setMaxAge(0);
-					cookie.setPath("/");
+					cookie.setPath("/*");
 					response.addCookie(cookie);
 				}
 			}
