@@ -16,7 +16,8 @@ public enum ErrorCode {
     // NOT_FOUND: 404
     INFO_NOT_FOUND(NOT_FOUND, "해당하는 id의 info가 없습니다."),
     PERSON_NOT_FOUND(NOT_FOUND, "해당하는 id의 person이 없습니다."),
-    PROFILE_NOT_FOUND(NOT_FOUND, "해당하는 personId의 profile이 없습니다."),
+    PROFILE_NOT_FOUND(NOT_FOUND, "해당하는 id의 profile이 없습니다."),
+    USER_NOT_FOUND(NOT_FOUND, "해당하는 id의 user가 없습니다."),
 
     // INTERNAL_SERVER_ERROR: 500
     PROFILE_SAVE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 저장에 실패하였습니다."),
