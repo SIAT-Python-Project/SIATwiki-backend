@@ -46,7 +46,7 @@ class InfoServiceTest {
 
         InfoDto.InfoRequestDto requestDto = new InfoDto.InfoRequestDto("OUTLINE", "ㅎ하하하하하ㅏ핳ㅎ", person.getId());
 
-        InfoDto.InfoResponseDto responseDto = infoService.createInfo(requestDto, requestDto.getPersonId());
+        InfoDto.InfoResponseDto responseDto = infoService.createInfo(requestDto);
 
         Assertions.assertEquals(responseDto.getContent(), requestDto.getContent());
     }
@@ -73,7 +73,7 @@ class InfoServiceTest {
         InfoDto.InfoRequestDto requestDto = new InfoDto.InfoRequestDto("1231231", "ㅎ하하하하하ㅏ핳ㅎ", person.getId());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            infoService.createInfo(requestDto, requestDto.getPersonId());
+            infoService.createInfo(requestDto);
         });
     }
 
@@ -100,7 +100,7 @@ class InfoServiceTest {
         InfoDto.InfoRequestDto requestDto = new InfoDto.InfoRequestDto("OUTLINE", "ㅎ하하하하하ㅏ핳ㅎ", person.getId());
 
         assertThrows(NoSuchElementException.class, () -> {
-            infoService.createInfo(requestDto, 100000);
+            infoService.createInfo(requestDto);
         });
     }
 }
