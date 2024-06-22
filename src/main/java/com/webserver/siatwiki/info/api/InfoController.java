@@ -1,6 +1,7 @@
 package com.webserver.siatwiki.info.api;
 
 import com.webserver.siatwiki.info.dto.InfoDto;
+import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.info.service.InfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,61 +18,33 @@ public class InfoController {
 
     @PostMapping("/api/info")
     public ResponseEntity<InfoDto.InfoResponseDto> createInfo(@RequestBody final InfoDto.InfoRequestDto requestDto) {
-
-        InfoDto.InfoResponseDto responseDto = null;
+        InfoDto.InfoResponseDto responseDto = infoService.createInfo(requestDto);
         HttpStatus status = HttpStatus.CREATED;
-
-        try {
-            responseDto = infoService.createInfo(requestDto, requestDto.getPersonId());
-        } catch (IllegalArgumentException e) {
-            status = HttpStatus.BAD_REQUEST;
-        } catch (NoSuchElementException e) {
-            status = HttpStatus.NOT_FOUND;
-        }
 
         return new ResponseEntity<>(responseDto, status);
     }
 
     @GetMapping("/api/info/{infoId}")
     public ResponseEntity<InfoDto.InfoResponseDto> getInfoById(@PathVariable final Integer infoId) {
-        InfoDto.InfoResponseDto responseDto = null;
+        InfoDto.InfoResponseDto responseDto = infoService.getInfoById(infoId);;
         HttpStatus status = HttpStatus.OK;
-
-        try {
-            responseDto = infoService.getInfoById(infoId);
-        } catch (NoSuchElementException e) {
-            status = HttpStatus.NOT_FOUND;
-        }
 
         return new ResponseEntity<>(responseDto, status);
     }
 
     @GetMapping("/api/info/person/{personId}")
     public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final int personId) {
-        List<InfoDto.InfoResponseDto> responseDtos = null;
+        List<InfoDto.InfoResponseDto> responseDto = infoService.findAllByPersonId(personId);;
         HttpStatus status = HttpStatus.OK;
 
-        try {
-            responseDtos = infoService.findAllByPersonId(personId);
-        } catch (NoSuchElementException e) {
-            status = HttpStatus.NOT_FOUND;
-        }
-
-        return new ResponseEntity<>(responseDtos, status);
+        return new ResponseEntity<>(responseDto, status);
     }
 
     @PutMapping("/api/info/{infoId}")
-    public ResponseEntity<String> updateInfo(@PathVariable final Integer infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
-        String result = "성공!";
-        HttpStatus status = HttpStatus.OK;
+    public ResponseEntity<InfoDto.InfoResponseDto> updateInfo(@PathVariable final Integer infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
+        InfoDto.InfoResponseDto responseDto = infoService.updateInfo(infoId, requestDto);
+        HttpStatus status = HttpStatus.CREATED;
 
-        try {
-            infoService.updateInfo(infoId, requestDto);
-        } catch (NoSuchElementException e) {
-            status = HttpStatus.NOT_FOUND;
-            result = "실패!";
-        }
-
-        return new ResponseEntity<>(result, status);
+        return new ResponseEntity<>(responseDto, status);
     }
 }
