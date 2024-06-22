@@ -24,5 +24,6 @@ public class InfoDto {
         private String category;
         private String content;
         private LocalDateTime updateDate;
+        private int personId;
     }
 }
