@@ -45,7 +45,7 @@ public class PersonController {
     }
 
     @PostMapping("/api/person")
-    public ResponseEntity<Void> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file) {
+    public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file) {
         HttpStatus status = HttpStatus.CREATED;
         Long profileId = null;
 
@@ -53,9 +53,10 @@ public class PersonController {
             profileId = profileService.saveProfile(file);
         }
 
-        personService.savePerson(person, profileId);
+        PersonDTO.PersonResponseDTO personResponseDTO = personService.toDto(personService.savePerson(person, profileId));
+        HttpHeaders header = new HttpHeaders();
 
-        return new ResponseEntity<>(status);
+        return new ResponseEntity<>(personResponseDTO, header, status);
     }
 
     @PutMapping("/api/person/{personId}")

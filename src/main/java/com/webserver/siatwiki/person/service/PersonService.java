@@ -33,7 +33,7 @@ public class PersonService {
     private final ProfileQueryDslRepository profileQueryDslRepository;
 
     @Transactional
-    public void savePerson(PersonDTO.PersonRequestDTO personRequestDTO, Long profileId) {
+    public Person savePerson(PersonDTO.PersonRequestDTO personRequestDTO, Long profileId) {
         Profile profile = null;
         if (profileId != null) {
             profile = profileRepository.findById(profileId)
@@ -46,7 +46,7 @@ public class PersonService {
 
         Person person = toEntity(personRequestDTO, user, profile);
 
-        personRepository.save(person);
+        Person newPerson = personRepository.save(person);
 
         for (Category category : Category.values()) {
             Info info = Info.builder()
@@ -57,6 +57,8 @@ public class PersonService {
 
             infoRepository.save(info);
         }
+
+        return newPerson;
     }
 
     @Transactional
