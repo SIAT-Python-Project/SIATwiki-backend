@@ -81,6 +81,7 @@ public class InfoService {
                 .category(info.getType().getKr())
                 .content(info.getContent())
                 .updateDate(info.getUpdateDate())
+                .personId(info.getPerson().getId())
                 .build();
     }
 }
