@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 public class UserController {
 
 	private final UserService userService;
+//	private final CookieInterceptor cookieInterceptor;
 	Cookie cookie;
 	
 	@PostMapping("/api/sign-up")
@@ -53,26 +53,13 @@ public class UserController {
 	}
 
 	@PostMapping("/api/login")
-	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws UnsupportedEncodingException {
+	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
 		if (loginSuccess) {
 			User cookieUser = userService.getByEmail(requestDTO.getEmail());
 			UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
-            
-//			Cookie emailCookie = new Cookie("email", URLEncoder.encode(userLoginDTO.getEmail(), "UTF-8"));
-//			emailCookie.setPath("/*");
-//			response.addCookie(emailCookie);
-//
-//			// name 쿠키 추가
-//			Cookie nameCookie = new Cookie("name", URLEncoder.encode(userLoginDTO.getName(), "UTF-8"));
-//			nameCookie.setPath("/*");
-//			response.addCookie(nameCookie);
-//
-//			// id 쿠키 추가
-//			Cookie idCookie = new Cookie("id", String.valueOf(userLoginDTO.getId()));
-//			idCookie.setPath("/*");
-//			response.addCookie(idCookie);
-            
+//			cookieInterceptor.createLoginCookies(response, cookieUser.getName(), cookieUser.getEmail(), String.valueOf(cookieUser.getId()));
+			  
 			return ResponseEntity.ok(userLoginDTO);
 		} else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("email 또는 password가 다름니다");
