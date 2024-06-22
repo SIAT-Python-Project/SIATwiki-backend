@@ -56,9 +56,9 @@ public class PersonController {
             if (file != null){
                 profileId = profileService.saveProfile(file);
             }
+            PersonDTO.PersonResponseDTO personResponseDTO= personService.toDto(personService.savePerson(person, profileId));
 
-            personService.savePerson(person, profileId);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(personResponseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public class PersonController {
             responseDTO.setFilePath(filePath);
 
             HttpHeaders header = new HttpHeaders();
-            header.set(HttpHeaders.CONTENT_TYPE, "application/json");
+            header.set(HttpHeaders.CONTENT_TYPE, "multipart/form-data");
 
             return new ResponseEntity<>(responseDTO, header, HttpStatus.OK);
         } catch (NoSuchElementException e) {
