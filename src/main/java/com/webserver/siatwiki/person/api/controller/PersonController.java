@@ -27,79 +27,63 @@ public class PersonController {
 
     @GetMapping("/api/person/{personId}")
     public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") int id) {
-        Optional<Person> personOptional = personService.getPerson(id);
+        HttpStatus status = HttpStatus.OK;
+        Person person = personService.getPerson(id);
+        String filePath = null;
 
-        if (personOptional.isPresent()) {
-            Person person = personOptional.get();
-            String filePath = null;
-            if (person.getProfile() != null) {
-                filePath = profileService.getProfileUrlByPersonId(id);
-            }
-
-            PersonDTO.PersonResponseDTO responseDTO = personService.toDto(person);
-
-            responseDTO.setFilePath(filePath);
-            HttpHeaders header = new HttpHeaders();
-            header.set(HttpHeaders.CONTENT_TYPE, "application/json");
-
-            return new ResponseEntity<>(responseDTO, header, HttpStatus.OK);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        if (person.getProfile() != null) {
+            filePath = profileService.getProfileUrlByPersonId(id);
         }
+
+        PersonDTO.PersonResponseDTO responseDTO = personService.toDto(person);
+        responseDTO.setFilePath(filePath);
+
+        HttpHeaders header = new HttpHeaders();
+        header.set(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        return new ResponseEntity<>(responseDTO, header, status);
     }
 
     @PostMapping("/api/person")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person,
-                                                                  @RequestPart(required = false) MultipartFile file) {
-        try {
-            Long profileId = null;
-            if (file != null){
-                profileId = profileService.saveProfile(file);
-            }
+    public ResponseEntity<Void> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file) {
+        HttpStatus status = HttpStatus.CREATED;
+        Long profileId = null;
 
-            personService.savePerson(person, profileId);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        if (file != null) {
+            profileId = profileService.saveProfile(file);
         }
+
+        personService.savePerson(person, profileId);
+
+        return new ResponseEntity<>(status);
     }
 
     @PutMapping("/api/person/{personId}")
     public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") int id,
                                                                     @RequestPart PersonDTO.PersonRequestDTO person,
                                                                     @RequestPart(required = false) MultipartFile file) {
-        try {
-            String filePath = profileService.updateProfile(id, file);
-            Person updatedPerson = personService.updatePerson(id, person);
-            PersonDTO.PersonResponseDTO responseDTO = personService.toDto(updatedPerson);
-            responseDTO.setFilePath(filePath);
+        HttpStatus status = HttpStatus.CREATED;
+        String filePath = profileService.updateProfile(id, file);
+        PersonDTO.PersonResponseDTO responseDTO = personService.updatePerson(id, person);
+        responseDTO.setFilePath(filePath);
 
-            HttpHeaders header = new HttpHeaders();
-            header.set(HttpHeaders.CONTENT_TYPE, "application/json");
+        HttpHeaders header = new HttpHeaders();
+        header.set(HttpHeaders.CONTENT_TYPE, "application/json");
 
-            return new ResponseEntity<>(responseDTO, header, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        return new ResponseEntity<>(responseDTO, header, status);
     }
 
     @DeleteMapping("/api/person/{personId}")
     public ResponseEntity<Void> deletePerson(@PathVariable("personId") int id) {
-        try {
-            personService.deletePerson(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        HttpStatus status = HttpStatus.NO_CONTENT;
+        personService.deletePerson(id);
+        return new ResponseEntity<>(status);
     }
 
     @GetMapping("/api/person")
     public ResponseEntity<List<PersonDTO.PersonIdNameDTO>> getAllPersonIdAndNames() {
+        HttpStatus status = HttpStatus.OK;
         List<PersonDTO.PersonIdNameDTO> response = personService.getAllPersonIdAndName();
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, status);
     }
 }
