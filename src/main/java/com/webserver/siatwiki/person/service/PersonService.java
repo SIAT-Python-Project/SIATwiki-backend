@@ -1,5 +1,6 @@
 package com.webserver.siatwiki.person.service;
 
+import com.webserver.siatwiki.common.response.error.CustomException;
 import com.webserver.siatwiki.info.entity.Category;
 import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.info.repository.InfoRepository;
@@ -14,13 +15,12 @@ import com.webserver.siatwiki.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.webserver.siatwiki.common.response.error.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -37,17 +37,18 @@ public class PersonService {
         Profile profile = null;
         if (profileId != null) {
             profile = profileRepository.findById(profileId)
-                    .orElseThrow(() -> new NoSuchElementException("해당 이미지가 존재하지 않습니다."));
+                    .orElseThrow(() -> new CustomException(PROFILE_NOT_FOUND));
         }
 
         //user먼저 찾아주고 넣어줌
         User user = userRepository.findById(personRequestDTO.getUserId())
-                .orElseThrow(() -> new NoSuchElementException("User가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
         Person person = toEntity(personRequestDTO, user, profile);
 
         Person newPerson = personRepository.save(person);
 
-        for (Category category: Category.values()) {
+        for (Category category : Category.values()) {
             Info info = Info.builder()
                     .type(category)
                     .content("")
@@ -61,28 +62,25 @@ public class PersonService {
     }
 
     @Transactional
-    public Optional<Person> getPerson(int id) {
-        return personRepository.findById(id);
+    public Person getPerson(int id) {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new CustomException(PERSON_NOT_FOUND));
     }
 
     @Transactional
-    public Person updatePerson(int id, PersonDTO.PersonRequestDTO personRequestDTO) {
+    public PersonDTO.PersonResponseDTO updatePerson(int id, PersonDTO.PersonRequestDTO personRequestDTO) {
         //연관관계 (유저)먼저 UserId가 유효한지 판단 후 필드값 업데이트
-        Optional<Person> personOptional = personRepository.findById(id);
-        if (personOptional.isPresent()) {
-            Person person = personOptional.get();
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new CustomException(PERSON_NOT_FOUND));
 
-            User user = userRepository.findById(personRequestDTO.getUserId())
-                    .orElseThrow(() -> new NoSuchElementException("User가 존재하지 않습니다."));
+        User user = userRepository.findById(personRequestDTO.getUserId())
+                .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
 
-            //엔터티에 setter대신 update메서드를 넣었음
+        //엔터티에 setter대신 update메서드를 넣었음
+        person.update(personRequestDTO.getName(), personRequestDTO.getMbti(),
+                personRequestDTO.getEmail(), personRequestDTO.getGithub(), user);
 
-            person.update(personRequestDTO.getName(), personRequestDTO.getMbti(),
-                    personRequestDTO.getEmail(), personRequestDTO.getGithub(), user);
-            return personRepository.save(person);
-        } else {
-            throw new NoSuchElementException("Person이 존재하지 않습니다.");
-        }
+        return toDto(personRepository.save(person));
     }
 
     @Transactional
@@ -90,8 +88,10 @@ public class PersonService {
         Profile profile = profileQueryDslRepository.findByPersonId(id);
         personRepository.deleteById(id);
 
-        deleteLocalFile(profile.getFilePath());
-        profileRepository.delete(profile);
+        if (profile != null) {
+            deleteLocalFile(profile.getFilePath());
+            profileRepository.delete(profile);
+        }
     }
 
     //[{id:이름},{id:이름2},...]
