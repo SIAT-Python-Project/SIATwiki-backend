@@ -53,10 +53,10 @@ public class PersonController {
             profileId = profileService.saveProfile(file);
         }
 
-        PersonDTO.PersonResponseDTO personResponseDTO= personService.toDto(personService.savePerson(person, profileId));
+        PersonDTO.PersonResponseDTO personResponseDTO = personService.toDto(personService.savePerson(person, profileId));
+        HttpHeaders header = new HttpHeaders();
 
-
-        return new ResponseEntity<>(status).body(personResponseDTO);
+        return new ResponseEntity<>(personResponseDTO, header, status);
     }
 
     @PutMapping("/api/person/{personId}")
