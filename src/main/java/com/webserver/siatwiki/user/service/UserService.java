@@ -49,7 +49,7 @@ public class UserService {
 
 	@Transactional
 	public User getByEmail(String email) {
-		return userRepository.findByEmail(email);
+		return userRepository.findIdAndNameAndEmailByEmail(email);
 	}
 
 	public User DtoToEntity(UserRequestDTO requestDTO) {
