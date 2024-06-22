@@ -2,8 +2,14 @@ package com.webserver.siatwiki.user.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.webserver.siatwiki.common.response.error.CustomException;
+import com.webserver.siatwiki.user.dto.UserDTO;
+import com.webserver.siatwiki.user.dto.UserLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +20,9 @@ import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.webserver.siatwiki.common.response.error.ErrorCode.DUPLICATE_USER_EMAIL;
+import static com.webserver.siatwiki.common.response.error.ErrorCode.LOGIN_FAIL;
 
 @RequiredArgsConstructor
 @Service
@@ -26,25 +35,50 @@ public class UserService {
 //	}
 
 	@Transactional
-	public void createUser(User user) {
-		userRepository.save(user);
+	public User createUser(UserRequestDTO requestDTO) {
+		User duplicateUser = userRepository.findByEmail(requestDTO.getEmail());
+
+		if (duplicateUser != null) {
+			throw new CustomException(DUPLICATE_USER_EMAIL);
+		}
+
+		User user = DtoToEntity(requestDTO);
+		User newUser =userRepository.save(user);
+		return newUser;
 	}
 
 	@Transactional
 	public boolean findUserLogin(String email, String password) {
 		User user = userRepository.findByEmail(email);
-		return user != null && user.getPassword().equals(password);
+
+		if (user == null || !user.getPassword().equals(password)) {
+			throw new CustomException(LOGIN_FAIL);
+		}
+
+		return true;
 	}
 
 	@Transactional
-	public List<User> findUser() {
-		return userRepository.findAll();
+	public List<UserDTO.UserResponseDTO> findUser() {
+		return userRepository.findAll().stream()
+				.map(user -> new UserDTO.UserResponseDTO(user.getId(),
+						user.getName(),
+						user.getEmail(),
+						user.getPassword(),
+						user.getRole(),
+						user.getCreateDate()))
+				.collect(Collectors.toList());
 	}
 
 	@Transactional
 	public boolean findUserLogout(String email) {
 		User user = userRepository.findByEmail(email);
-		return user != null;
+
+		if (user == null) {
+			throw new CustomException(LOGIN_FAIL);
+		}
+
+		return true;
 	}
 
 	@Transactional

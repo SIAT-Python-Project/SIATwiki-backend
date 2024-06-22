@@ -23,72 +23,46 @@ import lombok.RequiredArgsConstructor;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
-	private final UserService userService;
-//	private final CookieInterceptor cookieInterceptor;
-	Cookie cookie;
-	
-	@PostMapping("/api/sign-up")
-	public ResponseEntity createUser(@RequestBody UserDTO.UserRequestDTO requestDTO) {
-		User user = null;
-		try {
-			// 기존 사용자와 요청된 이메일 비교
-			List<User> existingUser = userService.findUser();
-			for (User checkUser : existingUser) {
-				if (checkUser != null && checkUser.getEmail().equals(requestDTO.getEmail())) {
-					return ResponseEntity.status(HttpStatus.CONFLICT).body("이메일 존재합니다");
-				}
-			}
-			user = userService.DtoToEntity(requestDTO);
-			userService.createUser(user);
-		} catch (Exception e) {
-			return new ResponseEntity<>(user, HttpStatus.BAD_REQUEST);
+    private final UserService userService;
+    //	private final CookieInterceptor cookieInterceptor;
+    Cookie cookie;
 
-		}
-		return new ResponseEntity<>(user, HttpStatus.OK);
+    @PostMapping("/api/sign-up")
+    public ResponseEntity<User> createUser(@RequestBody UserDTO.UserRequestDTO requestDTO) {
+        HttpStatus status = HttpStatus.CREATED;
+        User user = userService.createUser(requestDTO);
+        return new ResponseEntity<>(user, status);
+    }
 
-	}
+    @PostMapping("/api/login")
+    public ResponseEntity<UserLoginResponseDTO> findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        HttpStatus status = HttpStatus.OK;
+        boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
+        User cookieUser = userService.getByEmail(requestDTO.getEmail());
+        UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
+//		cookieInterceptor.createLoginCookies(response, cookieUser.getName(), cookieUser.getEmail(), String.valueOf(cookieUser.getId()));
 
-	@PostMapping("/api/login")
-	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
-		if (loginSuccess) {
-			User cookieUser = userService.getByEmail(requestDTO.getEmail());
-			UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
-//			cookieInterceptor.createLoginCookies(response, cookieUser.getName(), cookieUser.getEmail(), String.valueOf(cookieUser.getId()));
-			  
-			return ResponseEntity.ok(userLoginDTO);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("email 또는 password가 다름니다");
-		}
-	}
+        return new ResponseEntity<>(userLoginDTO, status);
 
-	@PostMapping("/api/logout")
-	public ResponseEntity<Boolean> findUserLogout(HttpServletRequest request, HttpServletResponse response) {
-	    return ResponseEntity.ok(true);
-	}
+    }
 
-	@PostMapping("/api/userFind")
-	public ResponseEntity<List<UserResponseDTO>> findUser(UserRequestDTO userRequsetDTO) {
-		List<User> result = userService.findUser();
-		if (result != null) {
-			List<UserResponseDTO> responseDTO = result.stream()
-					.map(user -> new UserResponseDTO(user.getId(),
-					user.getName(), 
-					user.getEmail(), 
-					user.getPassword(), 
-					user.getRole(),
-					user.getCreateDate()))
-					.collect(Collectors.toList());
-			return ResponseEntity.ok(responseDTO);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}
+    @PostMapping("/api/logout")
+    public ResponseEntity<Boolean> findUserLogout(HttpServletRequest request, HttpServletResponse response) {
+        HttpStatus status = HttpStatus.OK;
+        return new ResponseEntity<>(status);
+    }
 
-	}
+    @PostMapping("/api/userFind")
+    public ResponseEntity<List<UserResponseDTO>> findUser(UserRequestDTO userRequsetDTO) {
+        HttpStatus status = HttpStatus.OK;
+        List<UserDTO.UserResponseDTO> responseDTO = userService.findUser();
+        return new ResponseEntity<>(responseDTO, status);
+    }
 
 //	@PostMapping("/api/test")
 //	public void usertest() {
