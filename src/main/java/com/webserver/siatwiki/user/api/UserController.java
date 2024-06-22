@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.webserver.siatwiki.user.dto.UserDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserResponseDTO;
-import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginRequestDTO;
 import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.service.UserService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -50,30 +53,23 @@ public class UserController {
 	}
 
 	@PostMapping("/api/login")
-//	public ResponseEntity<String> findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, UserLoginRequestDTO userLoginRequestDTO) {
-	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, UserLoginRequestDTO userLoginRequestDTO) {
+	public ResponseEntity findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response) throws UnsupportedEncodingException {
 		boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
 		if (loginSuccess) {
-//			userLoginRequestDTO = userService.getByEmail(requestDTO.getEmail());
-			
-//			cookie = new Cookie("name", userCookie.getName());
-//			cookie.setMaxAge(3600);
-//          response.addCookie(cookie);
-//			return ResponseEntity.ok(userCookie.getName());
-			return ResponseEntity.ok(loginSuccess);
+			User cookieUser = userService.getByEmail(requestDTO.getEmail());
+			UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
+			Cookie cookie = new Cookie("name", URLEncoder.encode(userLoginDTO.getName(), "UTF-8"));
+            cookie.setPath("/");
+            response.addCookie(cookie);
+			return ResponseEntity.ok(userLoginDTO);
 		} else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("email 또는 password가 다름니다");
 		}
 	}
 
 	@PostMapping("/api/logout")
-	public ResponseEntity findUserLogout(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response) {
-		boolean logoutSuccess = userService.findUserLogout(requestDTO.getEmail());
-		if (logoutSuccess) {
-			return ResponseEntity.ok(true);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}
+	public ResponseEntity<Boolean> findUserLogout(HttpServletRequest request, HttpServletResponse response) {
+	    return ResponseEntity.ok(true);
 	}
 
 	@PostMapping("/api/userFind")

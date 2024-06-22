@@ -11,50 +11,46 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+
+import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
+import com.webserver.siatwiki.user.entity.User;
+import com.webserver.siatwiki.user.service.UserService;
 
 @WebFilter("/api/*")
+//@WebFilter(urlPatterns = "/api/*", initParams = {
+//        @WebInitParam(name = "charset", value = "UTF-8")
+//})
 public class CookieFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+	}
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
-    	
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+	@Override
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
 
-        // 로그인 시 쿠키 설정
-        if (request.getRequestURI().endsWith("/api/login")) {
-            String name = request.getParameter("name"); // 혹은 request body에서 name 추출
-            System.out.println(name);
-            if (name != null) {
-                Cookie cookie = new Cookie("name", name);
-//                cookie.setPath("/");
-                response.addCookie(cookie);
-            }
-        }
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		// 로그인 시 쿠키 설정
+		if (request.getRequestURI().endsWith("/api/login")) {
+		}
 
-        // 로그아웃 시 쿠키 삭제
-        if (request.getRequestURI().endsWith("/logout")) {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("name")) {
-                        cookie.setValue("");
-                        cookie.setMaxAge(0);
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                        break;
-                    }
-                }
-            }
-        }
+		// 로그아웃 시 쿠키 삭제
+		if (request.getRequestURI().endsWith("/api/logout")) {
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					cookie.setMaxAge(0);
+					cookie.setPath("/");
+					response.addCookie(cookie);
+				}
+			}
+		}
 
-        // 다음 필터 또는 서블릿 호출
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+		// 다음 필터 또는 서블릿 호출
+		filterChain.doFilter(servletRequest, servletResponse);
+	}
 
 }
