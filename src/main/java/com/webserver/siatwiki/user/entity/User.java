@@ -8,6 +8,7 @@ import com.webserver.siatwiki.person.entity.Person;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,11 +17,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 @Entity
 public class User {
@@ -45,7 +48,7 @@ public class User {
     @Column(name = "create_date")
     private LocalDateTime  createDate;   // user 생성일
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonBackReference
 	private List<Person> persons;
 
@@ -57,8 +60,6 @@ public class User {
       this.role = role;
       this.createDate = createDate;
    }
-    
-    
     
     
 }
