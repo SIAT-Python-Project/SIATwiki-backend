@@ -59,7 +59,7 @@ public class Person {
 	@OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	private List<Info> infos;
 
-	@OneToOne(cascade = {CascadeType.REMOVE})
+	@OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "profile_id")
 	private Profile profile;
 
