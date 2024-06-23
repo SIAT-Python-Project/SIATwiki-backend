@@ -1,4 +1,4 @@
-package com.webserver.siatwiki.common.inerceptor;
+package com.webserver.siatwiki.cookie.inerceptor;
 
 import com.webserver.siatwiki.common.response.error.ErrorCode;
 import com.webserver.siatwiki.common.response.error.ErrorResponse;

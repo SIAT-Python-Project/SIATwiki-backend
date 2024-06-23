@@ -1,4 +1,4 @@
-package com.webserver.siatwiki.common.inerceptor;
+package com.webserver.siatwiki.cookie.inerceptor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
