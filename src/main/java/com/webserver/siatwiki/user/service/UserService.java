@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.entity.Role;
 import com.webserver.siatwiki.user.entity.User;
+import com.webserver.siatwiki.user.repository.UserQueryDSLRepository;
 import com.webserver.siatwiki.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,26 +24,29 @@ import static com.webserver.siatwiki.common.response.error.ErrorCode.LOGIN_FAIL;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
 	@Autowired
 	private final UserRepository userRepository;
 
+	@Autowired
+	private final UserQueryDSLRepository userQueryDSLRepository;
 
 	@Transactional
 	public User createUser(UserRequestDTO requestDTO) {
-		User duplicateUser = userRepository.findByEmail(requestDTO.getEmail());
+		User duplicateUser = userQueryDSLRepository.findByEmail(requestDTO.getEmail());
 
 		if (duplicateUser != null) {
 			throw new CustomException(DUPLICATE_USER_EMAIL);
 		}
 
 		User user = DtoToEntity(requestDTO);
-		User newUser =userRepository.save(user);
+		User newUser = userRepository.save(user);
 		return newUser;
 	}
 
 	@Transactional
 	public boolean findUserLogin(String email, String password) {
-		User user = userRepository.findByEmail(email);
+		User user = userQueryDSLRepository.findByEmail(email);
 
 		if (user == null || !user.getPassword().equals(password)) {
 			throw new CustomException(LOGIN_FAIL);
@@ -53,19 +56,15 @@ public class UserService {
 
 	@Transactional
 	public List<UserDTO.UserResponseDTO> findUser() {
-		return userRepository.findAll().stream()
-				.map(user -> new UserDTO.UserResponseDTO(user.getId(),
-						user.getName(),
-						user.getEmail(),
-						user.getPassword(),
-						user.getRole(),
-						user.getCreateDate()))
+		return userRepository
+				.findAll().stream().map(user -> new UserDTO.UserResponseDTO(user.getId(), user.getName(),
+						user.getEmail(), user.getPassword(), user.getRole(), user.getCreateDate()))
 				.collect(Collectors.toList());
 	}
 
 	@Transactional
 	public boolean findUserLogout(String email) {
-		User user = userRepository.findByEmail(email);
+		User user = userQueryDSLRepository.findByEmail(email);
 
 		if (user == null) {
 			throw new CustomException(LOGIN_FAIL);
@@ -76,21 +75,13 @@ public class UserService {
 
 	@Transactional
 	public User getByEmail(String email) {
-		return userRepository.findIdAndNameAndEmailByEmail(email);
+		return userQueryDSLRepository.findIdAndNameAndEmailByEmail(email);
 	}
 
 	public User DtoToEntity(UserRequestDTO requestDTO) {
-		User user = User.builder()
-				.name(requestDTO.getName())
-				.email(requestDTO.getEmail())
-				.password(requestDTO.getPassword())
-				.role(Role.USER)
-				.createDate(LocalDateTime.now())
-				.build();
+		User user = User.builder().name(requestDTO.getName()).email(requestDTO.getEmail())
+				.password(requestDTO.getPassword()).role(Role.USER).createDate(LocalDateTime.now()).build();
 
 		return user;
-
 	}
-
-
 }

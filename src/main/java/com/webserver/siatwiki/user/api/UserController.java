@@ -23,11 +23,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class UserController {
-
+	
     private final UserService userService;
-    //	private final CookieInterceptor cookieInterceptor;
-    Cookie cookie;
-
+    
     @PostMapping("/api/sign-up")
     public ResponseEntity<User> createUser(@RequestBody UserDTO.UserRequestDTO requestDTO) {
         HttpStatus status = HttpStatus.CREATED;
