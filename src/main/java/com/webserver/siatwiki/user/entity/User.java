@@ -43,7 +43,7 @@ public class User {
     private String password;      // user password
    
    @Column(name = "role")
-    private Role role;         // user 역활?
+    private Role role;         // USER와 ADMIN
 
     @Column(name = "create_date")
     private LocalDateTime  createDate;   // user 생성일

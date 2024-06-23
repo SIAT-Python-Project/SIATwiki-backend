@@ -116,7 +116,7 @@
 - [x] Add Global Exception Handler
 - [x] Cookie auth
 
-See the [project issues](https://github.com/SIAT-Python-Project/KBO-Match-Result-Mail-System/issues) for a full list of proposed features(and known issues).
+See the [project issues](https://github.com/SIAT-Python-Project/SIATwiki-backend/issues) for a full list of proposed features(and known issues).
 
 <p align="right">(<a href="#SIAT-WIKI-Backend-yellow_heart">back to top</a>)</p>
 

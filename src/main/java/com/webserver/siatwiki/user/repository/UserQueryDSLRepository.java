@@ -19,12 +19,20 @@ public class UserQueryDSLRepository extends QuerydslRepositorySupport {
 	}
 
 	public User findByEmail(String email) {
-		return jpaQueryFactory.selectFrom(qUser).leftJoin(qUser.persons).fetchJoin().where(qUser.email.eq(email))
+		return jpaQueryFactory
+				.selectFrom(qUser)
+				.leftJoin(qUser.persons)
+				.fetchJoin()
+				.where(qUser.email.eq(email))
 				.fetchOne();
 	}
 
 	public User findIdAndNameAndEmailByEmail(String email) {
-		return jpaQueryFactory.selectFrom(qUser).leftJoin(qUser.persons).fetchJoin().where(qUser.email.eq(email))
+		return jpaQueryFactory
+				.selectFrom(qUser)
+				.leftJoin(qUser.persons)
+				.fetchJoin()
+				.where(qUser.email.eq(email))
 				.fetchOne();
 	}
 }
