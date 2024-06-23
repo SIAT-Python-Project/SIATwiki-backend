@@ -26,13 +26,15 @@ public class UserController {
 	
     private final UserService userService;
     
+    // 유저 회원가입
     @PostMapping("/api/sign-up")
     public ResponseEntity<User> createUser(@RequestBody UserDTO.UserRequestDTO requestDTO) {
         HttpStatus status = HttpStatus.CREATED;
-        User user = userService.createUser(requestDTO);
+        User user = userService.createUser(requestDTO);		
         return new ResponseEntity<>(user, status);
     }
 
+    // 로그인
     @PostMapping("/api/login")
     public ResponseEntity<Boolean> findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
         HttpStatus status = HttpStatus.OK;
@@ -45,12 +47,14 @@ public class UserController {
 
     }
 
+    // 로그아웃
     @PostMapping("/api/logout")
     public ResponseEntity<Boolean> findUserLogout(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = HttpStatus.OK;
         return new ResponseEntity<>(status);
     }
 
+    // UserList
     @PostMapping("/api/userFind")
     public ResponseEntity<List<UserResponseDTO>> findUser(UserRequestDTO userRequsetDTO) {
         HttpStatus status = HttpStatus.OK;
