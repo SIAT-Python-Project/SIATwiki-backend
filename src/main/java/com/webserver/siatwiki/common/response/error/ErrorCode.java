@@ -27,7 +27,8 @@ public enum ErrorCode {
     // INTERNAL_SERVER_ERROR: 500
     PROFILE_SAVE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 저장에 실패하였습니다."),
     PROFILE_DELETE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 삭제에 실패했습니다."),
-    JSON_TO_STRING_ERROR(INTERNAL_SERVER_ERROR, "서버 에러");
+    JSON_TO_STRING_ERROR(INTERNAL_SERVER_ERROR, "서버 에러"),
+	INVALID_EMAIL_FORMAT(INTERNAL_SERVER_ERROR, "이메일 형식을 맞춰주세요.");
 
     private final HttpStatus httpStatus;
     private final String detail;
