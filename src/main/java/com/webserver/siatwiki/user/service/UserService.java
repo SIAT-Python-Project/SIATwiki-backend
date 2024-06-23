@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
+import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
 import com.webserver.siatwiki.user.entity.Role;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
@@ -54,7 +55,6 @@ public class UserService {
 		if (user == null || !user.getPassword().equals(password)) {
 			throw new CustomException(LOGIN_FAIL);
 		}
-
 		return true;
 	}
 

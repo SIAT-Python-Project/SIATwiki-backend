@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.webserver.siatwiki.cookie.inerceptor.CookieInterceptor;
 import com.webserver.siatwiki.user.dto.UserDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserResponseDTO;
@@ -40,14 +41,14 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<UserLoginResponseDTO> findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public ResponseEntity<Boolean> findUserLogin(@RequestBody UserDTO.UserRequestDTO requestDTO, HttpServletResponse response, HttpServletRequest request) throws Exception {
         HttpStatus status = HttpStatus.OK;
         boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
         User cookieUser = userService.getByEmail(requestDTO.getEmail());
-        UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);
-//		cookieInterceptor.createLoginCookies(response, cookieUser.getName(), cookieUser.getEmail(), String.valueOf(cookieUser.getId()));
-
-        return new ResponseEntity<>(userLoginDTO, status);
+        UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);    
+        request.setAttribute("userLoginDTO", userLoginDTO);
+        
+        return new ResponseEntity<>(status);
 
     }
 
@@ -63,18 +64,5 @@ public class UserController {
         List<UserDTO.UserResponseDTO> responseDTO = userService.findUser();
         return new ResponseEntity<>(responseDTO, status);
     }
-
-//	@PostMapping("/api/test")
-//	public void usertest() {
-//		User user = User.builder() 
-//						.name("chang") 
-//						.email("bb@asd") 
-//						.password("123")
-//						.role(Role.ADMIN)
-//						.createDate(LocalDateTime.now())
-//						.build();
-//		
-//		userService.userTest(user);	
-//	}
 
 }
