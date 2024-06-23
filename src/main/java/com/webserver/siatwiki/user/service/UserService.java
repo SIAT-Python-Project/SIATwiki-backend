@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.webserver.siatwiki.common.response.error.CustomException;
+import com.webserver.siatwiki.common.response.error.ErrorCode;
 import com.webserver.siatwiki.user.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,11 @@ public class UserService {
 
 	@Transactional
 	public User createUser(UserRequestDTO requestDTO) {
+		
+	    if (!requestDTO.getEmail().contains("@")) {
+	        throw new CustomException(ErrorCode.INVALID_EMAIL_FORMAT); // 이미 정의된 경우에는 해당 에러 코드를 사용하세요
+	    }
+	    
 		User duplicateUser = userQueryDSLRepository.findByEmail(requestDTO.getEmail());	// 이메일 중복 확인
 
 		if (duplicateUser != null) {
