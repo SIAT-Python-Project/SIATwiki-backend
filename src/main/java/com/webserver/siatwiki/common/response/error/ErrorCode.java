@@ -15,6 +15,9 @@ public enum ErrorCode {
     LOGIN_FAIL(BAD_REQUEST, "일치하는 이메일과 비밀번호가 없습니다."),
     DUPLICATE_USER_EMAIL(BAD_REQUEST, "email이 중복 됩니다."),
 
+    // FORBIDDEN: 403
+    NOT_COOKIE(FORBIDDEN, "Cookie 정보가 없습니다."),
+
     // NOT_FOUND: 404
     INFO_NOT_FOUND(NOT_FOUND, "해당하는 id의 info가 없습니다."),
     PERSON_NOT_FOUND(NOT_FOUND, "해당하는 id의 person이 없습니다."),
@@ -23,7 +26,8 @@ public enum ErrorCode {
 
     // INTERNAL_SERVER_ERROR: 500
     PROFILE_SAVE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 저장에 실패하였습니다."),
-    PROFILE_DELETE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 삭제에 실패했습니다.");
+    PROFILE_DELETE_FAIL(INTERNAL_SERVER_ERROR, "프로필 사진 삭제에 실패했습니다."),
+    JSON_TO_STRING_ERROR(INTERNAL_SERVER_ERROR, "서버 에러");
 
     private final HttpStatus httpStatus;
     private final String detail;

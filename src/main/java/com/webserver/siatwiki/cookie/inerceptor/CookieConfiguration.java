@@ -11,8 +11,7 @@ public class CookieConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(cookieInterceptor())
-                .addPathPatterns("/api/login") // 로그인 요청에 대해서만 인터셉터 적용
-                .addPathPatterns("/api/logout"); // 로그아웃 요청에 대해서만 인터셉터 적용
+                .addPathPatterns("/api/**");
     }
     
     @Bean
