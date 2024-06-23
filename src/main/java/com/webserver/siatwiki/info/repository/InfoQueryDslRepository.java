@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webserver.siatwiki.info.entity.Category;
 import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.info.entity.QInfo;
+import com.webserver.siatwiki.person.entity.QPerson;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,8 @@ public class InfoQueryDslRepository extends QuerydslRepositorySupport {
         return jpaQueryFactory
                 .selectFrom(qInfo)
                 .where(eqPersonId(personId))
+                .leftJoin(qInfo.person)
+                .fetchJoin()
                 .orderBy(Category.queryDSLSortOption())
                 .fetch();
     }
