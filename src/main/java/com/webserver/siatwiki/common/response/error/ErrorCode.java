@@ -16,7 +16,7 @@ public enum ErrorCode {
     DUPLICATE_USER_EMAIL(BAD_REQUEST, "email이 중복 됩니다."),
 
     // FORBIDDEN: 403
-    NOT_COOKIE(FORBIDDEN, "Cookie 정보가 없습니다."),
+    NOT_COOKIE(FORBIDDEN, "로그인 후 이용 가능합니다."),
 
     // NOT_FOUND: 404
     INFO_NOT_FOUND(NOT_FOUND, "해당하는 id의 info가 없습니다."),
