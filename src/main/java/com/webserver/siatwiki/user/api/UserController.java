@@ -1,15 +1,12 @@
 package com.webserver.siatwiki.user.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.webserver.siatwiki.cookie.inerceptor.CookieInterceptor;
 import com.webserver.siatwiki.user.dto.UserDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserResponseDTO;
@@ -22,8 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 @Controller
@@ -46,7 +41,7 @@ public class UserController {
         boolean loginSuccess = userService.findUserLogin(requestDTO.getEmail(), requestDTO.getPassword());
         User cookieUser = userService.getByEmail(requestDTO.getEmail());
         UserLoginResponseDTO userLoginDTO = new UserLoginResponseDTO(cookieUser);    
-        request.setAttribute("userLoginDTO", userLoginDTO);
+        request.setAttribute("userLoginDTO", userLoginDTO);	// 인터셉터에 userLoginDTO 사용
         
         return new ResponseEntity<>(status);
 

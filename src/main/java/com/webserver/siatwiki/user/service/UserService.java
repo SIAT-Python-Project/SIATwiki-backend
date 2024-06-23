@@ -6,16 +6,12 @@ import java.util.stream.Collectors;
 
 import com.webserver.siatwiki.common.response.error.CustomException;
 import com.webserver.siatwiki.user.dto.UserDTO;
-import com.webserver.siatwiki.user.dto.UserLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
-import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
 import com.webserver.siatwiki.user.entity.Role;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.repository.UserRepository;
@@ -30,10 +26,7 @@ import static com.webserver.siatwiki.common.response.error.ErrorCode.LOGIN_FAIL;
 public class UserService {
 	@Autowired
 	private final UserRepository userRepository;
-//	@Transactional
-//	public void userTest(User user) {
-//		userRepository.save(user);
-//	}
+
 
 	@Transactional
 	public User createUser(UserRequestDTO requestDTO) {
