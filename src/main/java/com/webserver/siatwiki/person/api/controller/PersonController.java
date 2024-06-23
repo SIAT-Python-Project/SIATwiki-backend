@@ -1,11 +1,14 @@
 package com.webserver.siatwiki.person.api.controller;
 
+import com.webserver.siatwiki.common.util.cookie.CookieUtil;
 import com.webserver.siatwiki.person.dto.PersonDTO;
 import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.service.PersonService;
 import com.webserver.siatwiki.profile.entity.Profile;
 import com.webserver.siatwiki.profile.repository.ProfileRepository;
 import com.webserver.siatwiki.profile.service.ProfileService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ public class PersonController {
 
     private final PersonService personService;
     private final ProfileService profileService;
+    private final CookieUtil cookieUtil;
 
     @GetMapping("/api/person/{personId}")
     public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") int id) {
@@ -45,13 +49,18 @@ public class PersonController {
     }
 
     @PostMapping("/api/person")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file) {
+    public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file, HttpServletRequest request) {
         HttpStatus status = HttpStatus.CREATED;
+        Cookie[] cookies = request.getCookies();
+        int userId = cookieUtil.decipherCookie(cookies);
+
         Long profileId = null;
 
         if (file != null) {
             profileId = profileService.saveProfile(file);
         }
+
+        person.setUserId(userId);
 
         PersonDTO.PersonResponseDTO personResponseDTO = personService.toDto(personService.savePerson(person, profileId));
         HttpHeaders header = new HttpHeaders();

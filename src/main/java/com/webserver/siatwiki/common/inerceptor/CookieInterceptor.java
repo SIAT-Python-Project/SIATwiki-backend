@@ -1,7 +1,13 @@
-package com.webserver.siatwiki.cookie.inerceptor;
+package com.webserver.siatwiki.common.inerceptor;
 
+import com.webserver.siatwiki.common.response.error.ErrorCode;
+import com.webserver.siatwiki.common.response.error.ErrorResponse;
+import com.webserver.siatwiki.common.util.cookie.CookieUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,28 +17,52 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import static com.webserver.siatwiki.common.response.error.ErrorCode.NOT_COOKIE;
+
 public class CookieInterceptor implements HandlerInterceptor {
 	@Autowired
-	private Environment env;
+	private CookieUtil cookieUtil;
+
+	private static final String LOGIN_PATH = "/api/login";
+	private static final String LOGOUT_PATH = "/api/logout";
+	private static final String SIGNUP_PATH = "/api/sign-up";
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		return true;
-	}
+		final String method = request.getMethod();
+		System.out.println(method + ":" + request.getRequestURI());
+		if (method.equals("GET")) {
+			return true;
+		}
+
+		if (request.getRequestURI().equals(LOGIN_PATH) || request.getRequestURI().equals(LOGOUT_PATH) || request.getRequestURI().equals(SIGNUP_PATH)) {
+			return true;
+		}
+
+		Cookie[] cookies = request.getCookies();
+
+		if (!cookieUtil.checkCookie(cookies)) {
+			response.setContentType("application/json");
+			response.setStatus(403);
+			String content = ErrorResponse.toString(NOT_COOKIE);
+			response.getOutputStream().write(content.getBytes());
+			return false;
+		}
+
+        return true;
+    }
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		if (request.getRequestURI().equals("/api/login")) {
+		if (request.getRequestURI().equals(LOGIN_PATH)) {
 			UserLoginResponseDTO cookieUser = (UserLoginResponseDTO) request.getAttribute("userLoginDTO");
 
 			if (cookieUser != null) {
-				String front = env.getProperty("cookie.front");
-				String back = env.getProperty("cookie.back");
 				Cookie emailCookie = new Cookie("email", cookieUser.getEmail());
 				Cookie nameCookie = new Cookie("name", cookieUser.getName());
-				Cookie idCookie = new Cookie("id", front + cookieUser.getId() + back);
+				Cookie idCookie = new Cookie("id", cookieUtil.encipherCookie(cookieUser.getId()));
 
 				emailCookie.setPath("/");
 				nameCookie.setPath("/");
@@ -48,7 +78,7 @@ public class CookieInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		if (request.getRequestURI().equals("/api/logout")) {
+		if (request.getRequestURI().equals(LOGOUT_PATH)) {
 			Cookie[] cookies = request.getCookies();
 
 			if (cookies != null) {
