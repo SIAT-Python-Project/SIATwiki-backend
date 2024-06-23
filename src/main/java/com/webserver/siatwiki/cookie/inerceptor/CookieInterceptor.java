@@ -25,9 +25,10 @@ public class CookieInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (request.getRequestURI().equals("/api/login")) {
-			UserLoginResponseDTO cookieUser = (UserLoginResponseDTO) request.getAttribute("userLoginDTO");
-
-			if (cookieUser != null) {
+			UserLoginResponseDTO cookieUser = (UserLoginResponseDTO) request.getAttribute("userLoginDTO");	// controller에서 받아온 데이터
+			
+			// id, email, name 쿠키에 저장
+			if (cookieUser != null) {	
 				String front = env.getProperty("cookie.front");
 				String back = env.getProperty("cookie.back");
 				Cookie emailCookie = new Cookie("email", cookieUser.getEmail());
@@ -50,7 +51,8 @@ public class CookieInterceptor implements HandlerInterceptor {
 			throws Exception {
 		if (request.getRequestURI().equals("/api/logout")) {
 			Cookie[] cookies = request.getCookies();
-
+			
+			// 쿠키 삭제
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
 					cookie.setMaxAge(0);
