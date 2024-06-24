@@ -1,13 +1,8 @@
-package com.webserver.siatwiki.cookie.inerceptor;
+package com.webserver.siatwiki.common.inerceptor.cookie;
 
-import com.webserver.siatwiki.common.response.error.ErrorCode;
 import com.webserver.siatwiki.common.response.error.ErrorResponse;
 import com.webserver.siatwiki.common.util.cookie.CookieUtil;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
