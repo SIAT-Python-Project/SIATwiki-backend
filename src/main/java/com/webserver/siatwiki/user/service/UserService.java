@@ -1,16 +1,20 @@
 package com.webserver.siatwiki.user.service;
 
+import static com.webserver.siatwiki.common.response.error.ErrorCode.DUPLICATE_USER_EMAIL;
+import static com.webserver.siatwiki.common.response.error.ErrorCode.LOGIN_FAIL;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.webserver.siatwiki.common.response.error.CustomException;
-import com.webserver.siatwiki.common.response.error.ErrorCode;
-import com.webserver.siatwiki.user.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.webserver.siatwiki.common.response.error.CustomException;
+import com.webserver.siatwiki.common.response.error.ErrorCode;
+import com.webserver.siatwiki.user.dto.UserDTO;
 import com.webserver.siatwiki.user.dto.UserDTO.UserRequestDTO;
 import com.webserver.siatwiki.user.entity.Role;
 import com.webserver.siatwiki.user.entity.User;
@@ -18,9 +22,6 @@ import com.webserver.siatwiki.user.repository.UserQueryDSLRepository;
 import com.webserver.siatwiki.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
-import static com.webserver.siatwiki.common.response.error.ErrorCode.DUPLICATE_USER_EMAIL;
-import static com.webserver.siatwiki.common.response.error.ErrorCode.LOGIN_FAIL;
 
 @RequiredArgsConstructor
 @Service
@@ -32,10 +33,17 @@ public class UserService {
 	@Autowired
 	private final UserQueryDSLRepository userQueryDSLRepository;
 
+	private static boolean patternMatches(String emailAddress, String regexPattern) {
+	    return Pattern.compile(regexPattern)
+	      .matcher(emailAddress)
+	      .matches();
+	}
+	
 	@Transactional
 	public User createUser(UserRequestDTO requestDTO) {
+		String regexPattern ="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$";
 		
-	    if (!requestDTO.getEmail().contains("@")) {
+	    if (!patternMatches(requestDTO.getEmail(), regexPattern)) {
 	        throw new CustomException(ErrorCode.INVALID_EMAIL_FORMAT); // 이미 정의된 경우에는 해당 에러 코드를 사용하세요
 	    }
 	    
@@ -95,4 +103,5 @@ public class UserService {
 
 		return user;
 	}
+
 }
