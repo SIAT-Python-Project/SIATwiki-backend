@@ -5,9 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.webserver.siatwiki.info.entity.Info;
 
-
 @Repository
-public interface InfoRepository  extends JpaRepository<Info, Integer>{
+public interface InfoRepository  extends JpaRepository<Info, Long>{
 
 }
 

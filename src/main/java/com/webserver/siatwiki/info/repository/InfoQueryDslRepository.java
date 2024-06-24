@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webserver.siatwiki.info.entity.Category;
 import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.info.entity.QInfo;
-import com.webserver.siatwiki.person.entity.QPerson;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +20,7 @@ public class InfoQueryDslRepository extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<Info> findAllByPersonId(int personId) {
+    public List<Info> findAllByPersonId(Long personId) {
         return jpaQueryFactory
                 .selectFrom(qInfo)
                 .where(eqPersonId(personId))
@@ -31,7 +30,7 @@ public class InfoQueryDslRepository extends QuerydslRepositorySupport {
                 .fetch();
     }
 
-    private BooleanExpression eqPersonId(int personId) {
+    private BooleanExpression eqPersonId(Long personId) {
         return qInfo.person.id.eq(personId);
     }
 }

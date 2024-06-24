@@ -1,7 +1,6 @@
 package com.webserver.siatwiki.profile.entity;
 
 import com.webserver.siatwiki.person.entity.Person;
-import com.webserver.siatwiki.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

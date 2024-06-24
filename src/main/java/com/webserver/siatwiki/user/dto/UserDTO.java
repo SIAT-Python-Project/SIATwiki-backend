@@ -16,7 +16,7 @@ public class UserDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class UserResponseDTO {
-		private int id;
+		private Long id;
 		private String name;
 		private String email;
 		private String password;
@@ -38,7 +38,7 @@ public class UserDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class UserRequestDTO {
-		private int id;
+		private Long id;
 		private String name;
 		private String email;
 		private String password;

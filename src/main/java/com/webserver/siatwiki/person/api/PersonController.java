@@ -1,11 +1,9 @@
-package com.webserver.siatwiki.person.api.controller;
+package com.webserver.siatwiki.person.api;
 
 import com.webserver.siatwiki.common.util.cookie.CookieUtil;
 import com.webserver.siatwiki.person.dto.PersonDTO;
 import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.service.PersonService;
-import com.webserver.siatwiki.profile.entity.Profile;
-import com.webserver.siatwiki.profile.repository.ProfileRepository;
 import com.webserver.siatwiki.profile.service.ProfileService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,7 +25,7 @@ public class PersonController {
     private final CookieUtil cookieUtil;
 
     @GetMapping("/api/person/{personId}")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") int id) {
+    public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") Long id) {
         HttpStatus status = HttpStatus.OK;
         Person person = personService.getPerson(id);
         String filePath = null;
@@ -52,7 +47,7 @@ public class PersonController {
     public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file, HttpServletRequest request) {
         HttpStatus status = HttpStatus.CREATED;
         Cookie[] cookies = request.getCookies();
-        int userId = cookieUtil.decipherCookie(cookies);
+        Long userId = cookieUtil.decipherCookie(cookies);
 
         Long profileId = null;
 
@@ -69,7 +64,7 @@ public class PersonController {
     }
 
     @PutMapping("/api/person/{personId}")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") int id,
+    public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") Long id,
                                                                     @RequestPart PersonDTO.PersonRequestDTO person,
                                                                     @RequestPart(required = false) MultipartFile file) {
         HttpStatus status = HttpStatus.CREATED;
@@ -84,7 +79,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/api/person/{personId}")
-    public ResponseEntity<Void> deletePerson(@PathVariable("personId") int id) {
+    public ResponseEntity<Void> deletePerson(@PathVariable("personId") Long id) {
         HttpStatus status = HttpStatus.NO_CONTENT;
         personService.deletePerson(id);
         return new ResponseEntity<>(status);

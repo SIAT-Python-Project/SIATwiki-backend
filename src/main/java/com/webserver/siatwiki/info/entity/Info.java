@@ -14,7 +14,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +25,12 @@ public class Info {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id; 				// info 번호
+	private Long id; 				// info 번호
 
-	@Column(name = "type")
+	@Column(name = "type", length = 100)
 	private Category type;			// 카테고리
 	
-	@Column(name = "content")
+	@Column(name = "content", columnDefinition="longtext")
 	private String content;			// 카테고리 작성
 
 	@Column(name = "create_date")
@@ -42,7 +41,7 @@ public class Info {
 	@LastModifiedDate
 	private LocalDateTime updateDate;	// info 수정일
 
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="person_id")
 	@ManyToOne
     private Person person;				// person
 

@@ -62,13 +62,13 @@ public class PersonService {
     }
 
     @Transactional
-    public Person getPerson(int id) {
+    public Person getPerson(Long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new CustomException(PERSON_NOT_FOUND));
     }
 
     @Transactional
-    public PersonDTO.PersonResponseDTO updatePerson(int id, PersonDTO.PersonRequestDTO personRequestDTO) {
+    public PersonDTO.PersonResponseDTO updatePerson(Long id, PersonDTO.PersonRequestDTO personRequestDTO) {
         //연관관계 (유저)먼저 UserId가 유효한지 판단 후 필드값 업데이트
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new CustomException(PERSON_NOT_FOUND));
@@ -84,7 +84,7 @@ public class PersonService {
     }
 
     @Transactional
-    public void deletePerson(int id) {
+    public void deletePerson(Long id) {
         Profile profile = profileQueryDslRepository.findByPersonId(id);
         personRepository.deleteById(id);
 

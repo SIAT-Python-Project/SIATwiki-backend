@@ -1,6 +1,5 @@
 package com.webserver.siatwiki.info.dto;
 
-import com.webserver.siatwiki.info.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,16 +13,16 @@ public class InfoDto {
     public static class InfoRequestDto {
         private String type;
         private String content;
-        private int personId;
+        private Long personId;
     }
 
     @Data
     @Builder
     public static class InfoResponseDto {
-        private int id;
+        private Long id;
         private String category;
         private String content;
         private LocalDateTime updateDate;
-        private int personId;
+        private Long personId;
     }
 }

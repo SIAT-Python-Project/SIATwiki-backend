@@ -11,6 +11,7 @@ import com.webserver.siatwiki.person.entity.Person;
 import com.webserver.siatwiki.person.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,6 +27,7 @@ public class InfoService {
     private final PersonRepository personRepository;
     private final InfoQueryDslRepository infoQueryDslRepository;
 
+    @Transactional
     public InfoDto.InfoResponseDto createInfo(InfoDto.InfoRequestDto requestDto) {
         Person person = personRepository.findById(requestDto.getPersonId())
                 .orElseThrow(() -> new CustomException(ErrorCode.PERSON_NOT_FOUND));
@@ -37,7 +39,9 @@ public class InfoService {
         return entityToDto(createInfo);
     }
 
-    public List<InfoDto.InfoResponseDto> findAllByPersonId(int personId) {
+
+    @Transactional(readOnly = true)
+    public List<InfoDto.InfoResponseDto> findAllByPersonId(Long personId) {
         List<Info> infos = infoQueryDslRepository.findAllByPersonId(personId);
 
         return infos.stream()
@@ -45,14 +49,16 @@ public class InfoService {
                 .collect(Collectors.toList());
     }
 
-    public InfoDto.InfoResponseDto getInfoById(Integer infoId) {
+    @Transactional(readOnly = true)
+    public InfoDto.InfoResponseDto getInfoById(Long infoId) {
         Info info = infoRepository.findById(infoId)
                 .orElseThrow(() -> new CustomException(ErrorCode.INFO_NOT_FOUND));
 
         return entityToDto(info);
     }
 
-    public InfoDto.InfoResponseDto updateInfo(Integer infoId, InfoDto.InfoRequestDto dto) throws NoSuchElementException {
+    @Transactional
+    public InfoDto.InfoResponseDto updateInfo(Long infoId, InfoDto.InfoRequestDto dto) throws NoSuchElementException {
         Info target = infoRepository.findById(infoId)
                 .orElseThrow(() -> new CustomException(INFO_NOT_FOUND));
 

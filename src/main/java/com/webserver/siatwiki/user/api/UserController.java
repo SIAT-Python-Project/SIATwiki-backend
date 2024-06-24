@@ -14,7 +14,6 @@ import com.webserver.siatwiki.user.dto.UserLoginDTO.UserLoginResponseDTO;
 import com.webserver.siatwiki.user.entity.User;
 import com.webserver.siatwiki.user.service.UserService;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
