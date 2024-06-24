@@ -16,7 +16,7 @@ public class PersonDTO {
         private String mbti;
         private String email;
         private String github;
-        private int userId;
+        private Long userId;
     }
 
     @Data
@@ -24,7 +24,7 @@ public class PersonDTO {
     @AllArgsConstructor
     @Builder
     public static class PersonResponseDTO {
-        private int id;
+        private Long id;
         private String name;
         private String mbti;
         private String email;
@@ -38,7 +38,7 @@ public class PersonDTO {
     @AllArgsConstructor
     @Builder
     public static class PersonIdNameDTO{
-        private int id;
+        private Long id;
         private String name;
     }
 }

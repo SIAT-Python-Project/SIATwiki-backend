@@ -25,7 +25,7 @@ public class PersonController {
     private final CookieUtil cookieUtil;
 
     @GetMapping("/api/person/{personId}")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") int id) {
+    public ResponseEntity<PersonDTO.PersonResponseDTO> getPerson(@PathVariable("personId") Long id) {
         HttpStatus status = HttpStatus.OK;
         Person person = personService.getPerson(id);
         String filePath = null;
@@ -47,7 +47,7 @@ public class PersonController {
     public ResponseEntity<PersonDTO.PersonResponseDTO> savePerson(@RequestPart PersonDTO.PersonRequestDTO person, @RequestPart(required = false) MultipartFile file, HttpServletRequest request) {
         HttpStatus status = HttpStatus.CREATED;
         Cookie[] cookies = request.getCookies();
-        int userId = cookieUtil.decipherCookie(cookies);
+        Long userId = cookieUtil.decipherCookie(cookies);
 
         Long profileId = null;
 
@@ -64,7 +64,7 @@ public class PersonController {
     }
 
     @PutMapping("/api/person/{personId}")
-    public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") int id,
+    public ResponseEntity<PersonDTO.PersonResponseDTO> updatePerson(@PathVariable("personId") Long id,
                                                                     @RequestPart PersonDTO.PersonRequestDTO person,
                                                                     @RequestPart(required = false) MultipartFile file) {
         HttpStatus status = HttpStatus.CREATED;
@@ -79,7 +79,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/api/person/{personId}")
-    public ResponseEntity<Void> deletePerson(@PathVariable("personId") int id) {
+    public ResponseEntity<Void> deletePerson(@PathVariable("personId") Long id) {
         HttpStatus status = HttpStatus.NO_CONTENT;
         personService.deletePerson(id);
         return new ResponseEntity<>(status);

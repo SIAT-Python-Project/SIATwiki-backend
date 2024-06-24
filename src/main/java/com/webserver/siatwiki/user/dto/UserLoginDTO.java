@@ -14,12 +14,12 @@ public class UserLoginDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class UserLoginResponseDTO {
-		private String id;
+		private Long id;
 		private String name;
 		private String email;
 
 		public UserLoginResponseDTO(User user) {
-	        this.id = String.valueOf(user.getId());
+	        this.id = user.getId();
 			this.name = user.getName();
 			this.email = user.getEmail();
 
@@ -31,10 +31,9 @@ public class UserLoginDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class UserLoginRequestDTO {
-		private String id;
+		private Long id;
 		private String name;
 		private String email;
 	    private String password;
-
 	}
 }

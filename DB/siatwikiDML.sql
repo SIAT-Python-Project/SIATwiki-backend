@@ -4,17 +4,6 @@ INSERT INTO user (id,name,email,password,role,create_date)
 	(2,"장희권","hgyellow0505@gmail.com","1234","ADMIN",CURRENT_TIMESTAMP),
 	(3,"배창민","changmin38@gmail.com","1234","ADMIN",CURRENT_TIMESTAMP);
 
-INSERT INTO person
-	VALUES 
-    (3,1,'2024-06-23 20:18:19.648444',3,'2024-06-23 20:18:19.648444','jesuisambitieux@gmail.com','https://github.com/hj613','ENFP','이혜진'),
-    (4,1,'2024-06-23 20:19:05.441009',4,'2024-06-23 20:19:05.441009','hgyellow0505@gmail.com ','https://github.com/jang010505','ESTJ','장희권 '),
-    (5,1,'2024-06-23 20:20:04.730163',5,'2024-06-23 20:20:04.730163','changmin38@gmail.com','https://github.com/bbmini96','ISTJ','배창민'),
-    (6,1,'2024-06-23 20:22:19.738897',6,'2024-06-23 20:22:19.738897','gntodtndls156@gmail.com','https://github.com/gntodtndls156','INFJ','함승우'),
-    (7,1,'2024-06-23 20:23:07.182976',7,'2024-06-23 20:23:07.182976','shortcut113@gmail.com','https://github.com/Wisdom-Kim','ISFP','김지혜'),
-    (8,1,'2024-06-23 20:23:58.937172',8,'2024-06-23 20:23:58.937172','ggbb2956@gmail.com','https://github.com/EnjoyTime18','INFP','조성민'),
-    (9,1,'2024-06-23 20:24:46.394261',9,'2024-06-23 20:24:46.394261','ysjin9992@gmail.com','https://github.com/yeosujin','ENTJ','여수진'),
-    (10,1,'2024-06-23 20:25:30.345334',10,'2024-06-23 20:25:30.345334','dlehdrb1112@gmail.com','https://github.com/202011988','ISTJ','이동규'),
-    (11,1,'2024-06-23 20:26:31.461099',11,'2024-06-23 20:26:31.461099','hypromellos@gmail.com','https://github.com/beom1995','ISFP/ISTP','하영현');
 
 INSERT INTO profile 
 	VALUES 
@@ -28,6 +17,18 @@ INSERT INTO profile
     (1720372,10,'7f07670f-350f-4319-9b12-c0557ca5a44d_고양이.jpg','고양이.jpg','C:\\siatwiki\\7f07670f-350f-4319-9b12-c0557ca5a44d_고양이.jpg'),
     (793711,11,'a79587bb-a5ba-4049-b115-426451b0770d_귀요미들.jpg','귀요미들.jpg','C:\\siatwiki\\a79587bb-a5ba-4049-b115-426451b0770d_귀요미들.jpg');
 
+
+INSERT INTO person
+	VALUES 
+    (3,1,'2024-06-23 20:18:19.648444',3,'2024-06-23 20:18:19.648444','jesuisambitieux@gmail.com','https://github.com/hj613','ENFP','이혜진'),
+    (4,1,'2024-06-23 20:19:05.441009',4,'2024-06-23 20:19:05.441009','hgyellow0505@gmail.com ','https://github.com/jang010505','ESTJ','장희권 '),
+    (5,1,'2024-06-23 20:20:04.730163',5,'2024-06-23 20:20:04.730163','changmin38@gmail.com','https://github.com/bbmini96','ISTJ','배창민'),
+    (6,1,'2024-06-23 20:22:19.738897',6,'2024-06-23 20:22:19.738897','gntodtndls156@gmail.com','https://github.com/gntodtndls156','INFJ','함승우'),
+    (7,1,'2024-06-23 20:23:07.182976',7,'2024-06-23 20:23:07.182976','shortcut113@gmail.com','https://github.com/Wisdom-Kim','ISFP','김지혜'),
+    (8,1,'2024-06-23 20:23:58.937172',8,'2024-06-23 20:23:58.937172','ggbb2956@gmail.com','https://github.com/EnjoyTime18','INFP','조성민'),
+    (9,1,'2024-06-23 20:24:46.394261',9,'2024-06-23 20:24:46.394261','ysjin9992@gmail.com','https://github.com/yeosujin','ENTJ','여수진'),
+    (10,1,'2024-06-23 20:25:30.345334',10,'2024-06-23 20:25:30.345334','dlehdrb1112@gmail.com','https://github.com/202011988','ISTJ','이동규'),
+    (11,1,'2024-06-23 20:26:31.461099',11,'2024-06-23 20:26:31.461099','hypromellos@gmail.com','https://github.com/beom1995','ISFP/ISTP','하영현');
 
 
 INSERT INTO info 

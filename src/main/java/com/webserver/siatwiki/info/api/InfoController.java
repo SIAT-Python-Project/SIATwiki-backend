@@ -23,7 +23,7 @@ public class InfoController {
     }
 
     @GetMapping("/api/info/{infoId}")
-    public ResponseEntity<InfoDto.InfoResponseDto> getInfoById(@PathVariable final Integer infoId) {
+    public ResponseEntity<InfoDto.InfoResponseDto> getInfoById(@PathVariable final Long infoId) {
         InfoDto.InfoResponseDto responseDto = infoService.getInfoById(infoId);;
         HttpStatus status = HttpStatus.OK;
 
@@ -31,7 +31,7 @@ public class InfoController {
     }
 
     @GetMapping("/api/info/person/{personId}")
-    public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final int personId) {
+    public ResponseEntity<List<InfoDto.InfoResponseDto>> getPersonInfo(@PathVariable("personId") final Long personId) {
         List<InfoDto.InfoResponseDto> responseDto = infoService.findAllByPersonId(personId);;
         HttpStatus status = HttpStatus.OK;
 
@@ -39,7 +39,7 @@ public class InfoController {
     }
 
     @PutMapping("/api/info/{infoId}")
-    public ResponseEntity<InfoDto.InfoResponseDto> updateInfo(@PathVariable final Integer infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
+    public ResponseEntity<InfoDto.InfoResponseDto> updateInfo(@PathVariable final Long infoId, @RequestBody final InfoDto.InfoRequestDto requestDto) {
         InfoDto.InfoResponseDto responseDto = infoService.updateInfo(infoId, requestDto);
         HttpStatus status = HttpStatus.CREATED;
 

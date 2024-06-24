@@ -26,9 +26,9 @@ public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id; 			// person 번호
+	private Long id; 			// person 번호
 
-	@Column(name = "name")
+	@Column(name = "name", length = 200)
 	private String name;		// person 이름
 
 	@Column(name = "create_date")
@@ -39,13 +39,13 @@ public class Person {
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;	// person 수정일
 
-	@Column(name = "mbti")
+	@Column(name = "mbti", length = 50)
 	private String mbti;			// person mbti
 
-	@Column(name = "email")
+	@Column(name = "email", length = 200)
 	private String email;			// person email
 
-	@Column(name = "github")
+	@Column(name = "github", length = 1000)
 	private String github;			// person github 메일
 
 	@JoinColumn(name="user_id")
