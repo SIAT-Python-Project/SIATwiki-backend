@@ -134,8 +134,44 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
 <p align="right">(<a href="#SIAT-WIKI-Backend-yellow_heart">back to top</a>)</p>
+
+<!-- API DOCS -->
+
+## API 명세서
+### Category API 명세서
+
+| Domain   | 메소드 방식 | 요청 경로       | 요청값 | 반환값               |
+|----------|-------------|-----------------|--------|----------------------|
+| Category | GET         | /api/info/category |        | CategoryResponseDto  |
+
+### Info API 명세서
+
+| Domain | 메소드 방식 | 요청 경로               | 요청값                       | 반환값                |
+|--------|-------------|-------------------------|------------------------------|-----------------------|
+| Info   | POST        | /api/info               | InfoDto.InfoRequestDto       | InfoDto.InfoResponseDto|
+| Info   | GET         | /api/info/{infoId}      |                              | InfoDto.InfoResponseDto|
+| Info   | GET         | /api/info/person/{personId} |                              | List<InfoDto.InfoResponseDto> |
+| Info   | PUT         | /api/info/{infoId}      | InfoDto.InfoRequestDto       | InfoDto.InfoResponseDto |
+
+### Person API 명세서
+
+| Domain | 메소드 방식 | 요청 경로           | 요청값                                      | 반환값                    |
+|--------|-------------|---------------------|---------------------------------------------|---------------------------|
+| Person | GET         | /api/person/{personId} |                                             | PersonDTO.PersonResponseDTO |
+| Person | POST        | /api/person         | PersonDTO.PersonRequestDTO, MultipartFile    | PersonDTO.PersonResponseDTO |
+| Person | PUT         | /api/person/{personId} | PersonDTO.PersonRequestDTO, MultipartFile   | PersonDTO.PersonResponseDTO |
+| Person | DELETE      | /api/person/{personId} |                                             | void                       |
+| Person | GET         | /api/person         |                                             | List<PersonDTO.PersonIdNameDTO> |
+
+### User API 명세서
+
+| Domain | 메소드 방식 | 요청 경로    | 요청값                   | 반환값                       |
+|--------|-------------|--------------|--------------------------|------------------------------|
+| User   | POST        | /api/sign-up | UserDTO.UserRequestDTO   | User                         |
+| User   | POST        | /api/login   | UserDTO.UserRequestDTO   | Boolean                      |
+| User   | POST        | /api/logout  |                          | Boolean                      |
+| User   | POST        | /api/userFind| UserDTO.UserRequestDTO   | List<UserDTO.UserResponseDTO>|
 
 <!-- COMING SOON -->
 
