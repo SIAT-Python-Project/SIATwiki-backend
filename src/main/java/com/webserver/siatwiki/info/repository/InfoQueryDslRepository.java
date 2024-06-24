@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webserver.siatwiki.info.entity.Category;
 import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.info.entity.QInfo;
-import com.webserver.siatwiki.person.entity.QPerson;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 

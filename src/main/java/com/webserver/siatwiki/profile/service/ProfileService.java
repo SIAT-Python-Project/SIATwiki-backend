@@ -7,6 +7,7 @@ import com.webserver.siatwiki.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final ProfileQueryDslRepository profileQueryDslRepository;
 
+    @Transactional
     public Long saveProfile(MultipartFile file) {
         try {
             String fileName = UUID.randomUUID() + "_" +file.getOriginalFilename();
@@ -44,6 +46,8 @@ public class ProfileService {
         }
     }
 
+
+    @Transactional(readOnly = true)
     public String getProfileUrlByPersonId(Integer personId) {
         Profile profile = profileQueryDslRepository.findByPersonId(personId);
 
@@ -54,6 +58,7 @@ public class ProfileService {
         return profile.getAttachmentFileName();
     }
 
+    @Transactional
     public String updateProfile(Integer personId, MultipartFile file) {
         Profile profile = profileQueryDslRepository.findByPersonId(personId);
 

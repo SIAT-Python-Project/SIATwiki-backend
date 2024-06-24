@@ -2,7 +2,6 @@ package com.webserver.siatwiki.profile.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.webserver.siatwiki.info.entity.Info;
 import com.webserver.siatwiki.profile.entity.Profile;
 import com.webserver.siatwiki.profile.entity.QProfile;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;

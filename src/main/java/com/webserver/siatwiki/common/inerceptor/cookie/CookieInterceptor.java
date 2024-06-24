@@ -26,7 +26,7 @@ public class CookieInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		final String method = request.getMethod();
-		System.out.println(method + ":" + request.getRequestURI());
+
 		if (method.equals("GET")) {
 			return true;
 		}
