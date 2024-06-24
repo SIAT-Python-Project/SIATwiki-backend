@@ -4,6 +4,9 @@ SIAT A반 사람들에 대해 알아보는 WIKI 프로젝드 입니다.
 # Table
 ![image](https://github.com/SIAT-Python-Project/SIATwiki-frontend/assets/84944464/9d12ee2f-ca60-4243-90a6-aca699e6a950)
 
+# DDL
+<a href="https://github.com/SIAT-Python-Project/SIATwiki-backend/blob/main/DB/siatwikiDDL.sql">DDL 데이터</a>
+
 # Sample Data
 <a href="https://github.com/SIAT-Python-Project/SIATwiki-backend/blob/main/DB/siatwikiDML.sql">DML 샘플 데이터</a>
 
