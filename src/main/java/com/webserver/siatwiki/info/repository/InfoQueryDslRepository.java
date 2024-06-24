@@ -20,7 +20,7 @@ public class InfoQueryDslRepository extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<Info> findAllByPersonId(int personId) {
+    public List<Info> findAllByPersonId(Long personId) {
         return jpaQueryFactory
                 .selectFrom(qInfo)
                 .where(eqPersonId(personId))
@@ -30,7 +30,7 @@ public class InfoQueryDslRepository extends QuerydslRepositorySupport {
                 .fetch();
     }
 
-    private BooleanExpression eqPersonId(int personId) {
+    private BooleanExpression eqPersonId(Long personId) {
         return qInfo.person.id.eq(personId);
     }
 }

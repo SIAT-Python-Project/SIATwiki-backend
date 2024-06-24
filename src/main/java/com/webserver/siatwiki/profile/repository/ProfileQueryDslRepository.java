@@ -17,14 +17,14 @@ public class ProfileQueryDslRepository extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public Profile findByPersonId(Integer personId) {
+    public Profile findByPersonId(Long personId) {
         return jpaQueryFactory
                 .selectFrom(qProfile)
                 .where(eqPersonId(personId))
                 .fetchOne();
     }
 
-    private BooleanExpression eqPersonId(int personId) {
+    private BooleanExpression eqPersonId(Long personId) {
         return qProfile.person.id.eq(personId);
     }
 }

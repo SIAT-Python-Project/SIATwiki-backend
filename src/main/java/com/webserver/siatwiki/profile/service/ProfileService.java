@@ -48,7 +48,7 @@ public class ProfileService {
 
 
     @Transactional(readOnly = true)
-    public String getProfileUrlByPersonId(Integer personId) {
+    public String getProfileUrlByPersonId(Long personId) {
         Profile profile = profileQueryDslRepository.findByPersonId(personId);
 
         if (profile == null) {
@@ -59,7 +59,7 @@ public class ProfileService {
     }
 
     @Transactional
-    public String updateProfile(Integer personId, MultipartFile file) {
+    public String updateProfile(Long personId, MultipartFile file) {
         Profile profile = profileQueryDslRepository.findByPersonId(personId);
 
         if (profile == null) {

@@ -31,18 +31,18 @@ public class User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id")
-   private int id;             // user 번호
+   private Long id;             // user 번호
    
-   @Column(name = "name")
+   @Column(name = "name", length = 200)
    private String name;         // user 이름
 
-   @Column(name = "email")
+   @Column(name = "email", length = 200)
     private String email;         // user email
 
-   @Column(name = "password")
+   @Column(name = "password", length = 1000)
     private String password;      // user password
    
-   @Column(name = "role")
+   @Column(name = "role", length = 100)
     private Role role;         // USER와 ADMIN
 
     @Column(name = "create_date")

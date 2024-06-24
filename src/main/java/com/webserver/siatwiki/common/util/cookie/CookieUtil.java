@@ -12,25 +12,25 @@ public class CookieUtil {
     @Value("${cookie.back}")
     private String back;
 
-    public String encipherCookie(final String id) {
+    public String encipherCookie(final Long id) {
         return front + id + back;
     }
 
-    public int decipherCookie(Cookie[] cookies) {
+    public Long decipherCookie(Cookie[] cookies) {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("id")) {
                 String value = cookie.getValue();
                 String userId = value.replace(front, "").replace(back, "");
 
                 try {
-                    return Integer.parseInt(userId);
+                    return Long.parseLong(userId);
                 } catch (NumberFormatException e) {
-                    return -1;
+                    return -1L;
                 }
             }
         }
 
-        return -1;
+        return -1L;
     }
 
     public boolean checkCookie(Cookie[] cookies) {
