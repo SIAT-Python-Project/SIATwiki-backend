@@ -1,6 +1,5 @@
 package com.webserver.siatwiki.person.entity;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,8 +15,6 @@ import lombok.ToString;
 import com.webserver.siatwiki.user.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @NoArgsConstructor
 @AllArgsConstructor

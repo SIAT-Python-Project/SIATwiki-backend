@@ -1,6 +1,5 @@
 package com.webserver.siatwiki.info.dto;
 
-import com.webserver.siatwiki.info.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

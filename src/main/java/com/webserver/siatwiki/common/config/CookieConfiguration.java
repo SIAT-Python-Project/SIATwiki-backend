@@ -1,5 +1,6 @@
-package com.webserver.siatwiki.cookie.inerceptor;
+package com.webserver.siatwiki.common.config;
 
+import com.webserver.siatwiki.common.inerceptor.cookie.CookieInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
